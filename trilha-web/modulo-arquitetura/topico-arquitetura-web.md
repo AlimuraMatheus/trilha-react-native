@@ -1,10 +1,4 @@
-# Tópico — Arquitetura (Trilha Web) - A
-
-> **Perfil:** Devs web experientes em React, acostumados com feature folders, hooks customizados e separação de camadas (view, services, store).
->
-> **Foco:** Reaproveitar esses padrões no contexto RN, organizando um app mobile com estrutura escalável.
-
----
+# Tópico — Arquitetura (Trilha Web)
 
 ### Objetivo do tópico
 
@@ -40,7 +34,7 @@ src/
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   └── api/
-│   ├�� feed/
+│   ├── feed/
 │   │   ├── screens/
 │   │   ├── components/
 │   │   └── api/
@@ -59,6 +53,7 @@ src/
 ### Hooks de domínio (paralelo com React web)
 
 ```tsx
+{% raw %}
 // features/feed/hooks/useFeed.ts
 import { useEffect, useState } from 'react';
 import { fetchFeed } from '../api/feedApi';
@@ -75,11 +70,13 @@ export function useFeed() {
 
   return { items, loading };
 }
+{% endraw %}
 ```
 
 Uso em tela:
 
 ```tsx
+{% raw %}
 // features/feed/screens/FeedScreen.tsx
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
@@ -97,6 +94,7 @@ export function FeedScreen() {
     </View>
   );
 }
+{% endraw %}
 ```
 
 ---

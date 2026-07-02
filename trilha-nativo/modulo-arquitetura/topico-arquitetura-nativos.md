@@ -1,9 +1,5 @@
 # Tópico — Arquitetura (Trilha 1: Devs Nativos)
 
-> **Perfil:** Devs com background Android/iOS que já conhecem MVVM, Clean Architecture e modularização de apps. O foco é mapear esses padrões para a organização de um projeto React Native.
-
----
-
 ## Objetivo do tópico
 
 Ao final, o dev deve conseguir:
@@ -31,6 +27,7 @@ Ao final, o dev deve conseguir:
 
 ## Estrutura de projeto sugerida
 
+{% raw %}
 ```txt
 src/
 ├── app/
@@ -60,6 +57,7 @@ src/
     ├── modules/
     └── ui/
 ```
+{% endraw %}
 
 - `app/`: infraestrutura (navegação, stores globais, config).
 - `features/`: módulos de negócio (auth, feed, profile, etc.).
@@ -70,6 +68,7 @@ src/
 
 ## Estado global (exemplo com Zustand)
 
+{% raw %}
 ```tsx
 // src/app/store/authStore.ts
 import { create } from 'zustand';
@@ -88,9 +87,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () => set({ isAuthenticated: false, token: undefined }),
 }));
 ```
+{% endraw %}
 
 Uso em uma tela:
 
+{% raw %}
 ```tsx
 // src/features/profile/screens/ProfileScreen.tsx
 import React from 'react';
@@ -108,7 +109,9 @@ export function ProfileScreen() {
     </View>
   );
 }
+}
 ```
+{% endraw %}
 
 ---
 
@@ -116,6 +119,7 @@ export function ProfileScreen() {
 
 A navegação (Stack/Tab/Drawer) deve ficar em `app/navigation`, fora das features específicas, para evitar acoplamento excessivo.
 
+{% raw %}
 ```tsx
 // src/app/navigation/RootNavigator.tsx
 import React from 'react';
@@ -134,7 +138,9 @@ export function RootNavigator() {
     </NavigationContainer>
   );
 }
+}
 ```
+{% endraw %}
 
 ---
 

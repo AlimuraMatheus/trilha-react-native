@@ -1,10 +1,4 @@
-# Tópico — Noções de Integração Nativa (Trilha Web) - A
-
-> **Perfil:** Devs web com experiência em React SPA/SSR, consumo de APIs REST/GraphQL, e ferramentas como Webpack/Vite. Pouca ou nenhuma experiência com Android/iOS nativos.
->
-> **Foco:** Entender o que é “código nativo” em React Native, o que é um módulo nativo e um componente de UI nativo, e como **consumir** isso sem precisar escrever Kotlin/Swift, usando o time nativo como apoio.
-
----
+# Tópico — Noções de Integração Nativa (Trilha Web)
 
 ### Objetivo do tópico
 

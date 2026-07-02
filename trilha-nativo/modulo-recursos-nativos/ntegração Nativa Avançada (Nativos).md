@@ -1,9 +1,5 @@
 # Tópico — Integração Nativa Avançada (Trilha 1: Devs Nativos)
 
-> **Perfil:** Devs com background Android/iOS que já criam views customizadas, módulos, SDKs e integram libs nativas. O foco é mapear esses conceitos para o modelo de *bridge* do React Native.
-
----
-
 ## Objetivo do tópico
 
 Ao final, o dev deve conseguir:
@@ -35,6 +31,7 @@ Um **Native Module** é uma classe nativa registrada no RN que expõe funções 
 
 ### Android — exemplo (Kotlin)
 
+{% raw %}
 ```kotlin
 // android/app/src/main/java/com/myapp/MyDeviceInfoModule.kt
 package com.myapp
@@ -56,7 +53,9 @@ class MyDeviceInfoModule(reactContext: ReactApplicationContext) :
   }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```kotlin
 // android/app/src/main/java/com/myapp/MyDeviceInfoPackage.kt
 package com.myapp
@@ -74,9 +73,11 @@ class MyDeviceInfoPackage : ReactPackage {
     emptyList()
 }
 ```
+{% endraw %}
 
 Registro no `MainApplication`:
 
+{% raw %}
 ```kotlin
 override fun getPackages(): MutableList<ReactPackage> {
   return mutableListOf(
@@ -85,9 +86,11 @@ override fun getPackages(): MutableList<ReactPackage> {
   )
 }
 ```
+{% endraw %}
 
 Uso em TypeScript:
 
+{% raw %}
 ```tsx
 // src/native/MyDeviceInfo.ts
 import { NativeModules } from 'react-native';
@@ -98,7 +101,9 @@ export async function getDeviceName(): Promise<string> {
   return MyDeviceInfo.getDeviceName();
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```tsx
 // Exemplo de consumo em uma tela RN
 import { useEffect, useState } from 'react';
@@ -119,9 +124,11 @@ export function DeviceInfoScreen() {
   );
 }
 ```
+{% endraw %}
 
 ### iOS — exemplo (Swift + Obj-C)
 
+{% raw %}
 ```swift
 // ios/MyDeviceInfoModule.swift
 import Foundation
@@ -137,7 +144,9 @@ class MyDeviceInfo: NSObject {
   }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```objc
 // ios/MyDeviceInfoModule.m
 #import <React/RCTBridgeModule.h>
@@ -147,6 +156,7 @@ RCT_EXTERN_METHOD(getDeviceName:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 @end
 ```
+{% endraw %}
 
 O consumo em TS é idêntico ao Android.
 
@@ -158,6 +168,7 @@ Um **Native UI Component** expõe uma `View`/`UIView` customizada para ser usada
 
 ### Android — View custom exposta em JSX
 
+{% raw %}
 ```kotlin
 // android/app/src/main/java/com/myapp/MyColoredView.kt
 package com.myapp
@@ -176,7 +187,9 @@ class MyColoredView(context: ThemedReactContext) : View(context) {
   }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```kotlin
 // android/app/src/main/java/com/myapp/MyColoredViewManager.kt
 package com.myapp
@@ -200,9 +213,11 @@ class MyColoredViewManager : SimpleViewManager<MyColoredView>() {
   }
 }
 ```
+{% endraw %}
 
 Registro no `ReactPackage` e uso em TS:
 
+{% raw %}
 ```tsx
 // src/native/MyColoredView.tsx
 import { requireNativeComponent } from 'react-native';
@@ -214,7 +229,9 @@ export type MyColoredViewProps = {
 
 export const MyColoredView = requireNativeComponent<MyColoredViewProps>('MyColoredView');
 ```
+{% endraw %}
 
+{% raw %}
 ```tsx
 // Exemplo de uso em uma tela
 import { View } from 'react-native';
@@ -228,6 +245,7 @@ export function ColoredBoxScreen() {
   );
 }
 ```
+{% endraw %}
 
 ---
 
@@ -235,6 +253,7 @@ export function ColoredBoxScreen() {
 
 Exemplo simplificado de evento de bateria no Android.
 
+{% raw %}
 ```kotlin
 // android/app/src/main/java/com/myapp/BatteryModule.kt
 package com.myapp
@@ -279,9 +298,11 @@ class BatteryModule(private val context: ReactApplicationContext) :
   }
 }
 ```
+{% endraw %}
 
 Consumo em RN:
 
+{% raw %}
 ```tsx
 // src/hooks/useBatteryLevel.ts
 import { useEffect, useState } from 'react';
@@ -308,6 +329,7 @@ export function useBatteryLevel() {
   return level;
 }
 ```
+{% endraw %}
 
 ---
 

@@ -1,10 +1,4 @@
-# Tópico — Testes (Trilha Web) - A
-
-> **Perfil:** Devs web que já usam Jest e Testing Library em React (web), fazem testes de unidade e testes baseados em comportamento.
->
-> **Foco:** Mostrar que testar RN é muito parecido com testar React web, mudando apenas o ambiente e algumas APIs.
-
----
+# Tópico — Testes (Trilha Web) 
 
 ### Objetivo do tópico
 

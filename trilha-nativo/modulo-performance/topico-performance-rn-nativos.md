@@ -1,9 +1,5 @@
 # Tópico — Performance React Native (Trilha 1: Devs Nativos)
 
-> **Perfil:** Devs com background Android/iOS que já usam ferramentas como Android Profiler, Instruments, Systrace e conhecem problemas de jank, ANR e memory leaks. O foco é mapear esses conceitos para o modelo de threads e rendering do React Native.
-
----
-
 ## Objetivo do tópico
 
 Ao final, o dev deve conseguir:
@@ -62,7 +58,7 @@ export type Product = {
 
 export function ProductList({ products }: { products: Product[] }) {
   const renderItem = useCallback(
-    ({ item }: { item: Product }) => <ProductRow product={item} />,
+    ({ item }: { item: Product }) => <ProductRow product={item} />, 
     [],
   );
 

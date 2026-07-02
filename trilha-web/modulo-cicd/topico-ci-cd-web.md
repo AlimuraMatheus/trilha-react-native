@@ -1,10 +1,4 @@
-# Tópico — CI/CD (Trilha Web) - A
-
-> **Perfil:** Devs web habituados a pipelines de CI (lint, testes, build, deploy) em aplicações React/Next.js.
->
-> **Foco:** Acrescentar a etapa de build nativo (Android/iOS) e geração de artefatos (APK/IPA) ao fluxo já conhecido.
-
----
+# Tópico — CI/CD (Trilha Web)
 
 ### Objetivo do tópico
 

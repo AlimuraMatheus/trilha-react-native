@@ -1,10 +1,4 @@
-# Tópico — Performance Mobile (Trilha Web) - A
-
-> **Perfil:** Devs web que já fizeram otimizações em React (memoização, lazy routes, code splitting, etc.) e entendem conceitos como “over-render” e “reconciliation”.
->
-> **Foco:** Traduzir essas práticas para o ambiente mobile, enfatizando que jank em scroll e animações tem impacto muito maior em UX no celular que na web.
-
----
+# Tópico — Performance Mobile (Trilha Web) 
 
 ### Objetivo do tópico
 
@@ -52,7 +46,7 @@ const MemoItemRow = React.memo(ItemRow);
 
 export function BigList({ items }: { items: Item[] }) {
   const renderItem = useCallback(
-    ({ item }: { item: Item }) => <MemoItemRow item={item} />,
+    ({ item }: { item: Item }) => <MemoItemRow item={item} />, 
     []
   );
 

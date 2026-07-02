@@ -1,9 +1,5 @@
 # Tópico — CI/CD (Trilha 1: Devs Nativos)
 
-> **Perfil:** Devs com background Android/iOS que já configuram pipelines de build para APK/IPA, usam Fastlane, certificados e assinatura de apps. O foco é integrar o React Native nesse fluxo de CI/CD já conhecido.
-
----
-
 ## Objetivo do tópico
 
 Ao final, o dev deve conseguir:
