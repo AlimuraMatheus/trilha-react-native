@@ -92,6 +92,7 @@ const { productId, productName } = route.params;
 
 ## Tab Navigator (sem equivalente direto no React Router)
 
+{% raw %}
 ```tsx
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -114,6 +115,7 @@ function AppTabs() {
   );
 }
 ```
+{% endraw %}
 
 ---
 
@@ -138,6 +140,7 @@ function AppDrawer() {
 
 ## Aninhamento: padrão mais comum (Drawer > Tab > Stack)
 
+{% raw %}
 ```tsx
 // App.tsx
 export default function App() {
@@ -175,6 +178,7 @@ function HomeStack() {
   );
 }
 ```
+{% endraw %}
 
 ---
 
@@ -182,6 +186,7 @@ function HomeStack() {
 
 No React Router, você usaria `<PrivateRoute>`. No React Navigation, o padrão é condicional:
 
+{% raw %}
 ```tsx
 // Sem wrappers — apenas renderização condicional de screens
 function RootNavigator() {
@@ -198,6 +203,7 @@ function RootNavigator() {
   );
 }
 ```
+{% endraw %}
 
 > Quando `isAuthenticated` muda, React Navigation automaticamente substitui o stack — sem redirecionamentos manuais.
 

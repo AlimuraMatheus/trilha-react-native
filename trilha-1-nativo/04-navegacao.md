@@ -49,6 +49,7 @@ cd ios && pod install
 
 ## Stack Navigator
 
+{% raw %}
 ```tsx
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -72,6 +73,7 @@ function AppStack() {
   );
 }
 ```
+{% endraw %}
 
 ```tsx
 // Navegando com parâmetros
@@ -85,6 +87,7 @@ const { productId } = route.params;
 
 ## Tab Navigator
 
+{% raw %}
 ```tsx
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -99,6 +102,7 @@ function AppTabs() {
   );
 }
 ```
+{% endraw %}
 
 ---
 
@@ -157,6 +161,7 @@ function HomeStack() {
 
 ## Fluxo de autenticação condicional
 
+{% raw %}
 ```tsx
 function App() {
   const { isAuthenticated } = useAuthStore();
@@ -174,6 +179,7 @@ function App() {
   );
 }
 ```
+{% endraw %}
 
 > React Navigation desmonta automaticamente as telas do fluxo anterior quando o estado muda — o comportamento é equivalente a trocar a root Activity no Android.
 

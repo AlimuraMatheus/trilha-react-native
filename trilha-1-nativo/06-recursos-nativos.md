@@ -115,6 +115,7 @@ async function requestCameraPermission(): Promise<boolean> {
 npx expo install expo-camera
 ```
 
+{% raw %}
 ```tsx
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRef } from 'react';
@@ -139,6 +140,7 @@ export function CameraScreen() {
   );
 }
 ```
+{% endraw %}
 
 ### Opção B: react-native-vision-camera (avançado, com frame processors)
 
@@ -147,6 +149,7 @@ npm install react-native-vision-camera react-native-nitro-modules
 cd ios && pod install
 ```
 
+{% raw %}
 ```tsx
 import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera';
 
@@ -160,6 +163,7 @@ export function VisionCameraScreen() {
   return <Camera style={{ flex: 1 }} device={device} isActive={true} />;
 }
 ```
+{% endraw %}
 
 > Vision Camera é a escolha para apps que precisam de processamento em tempo real (ML, QR code, AR). Para simplesmente tirar fotos, expo-camera resolve.
 

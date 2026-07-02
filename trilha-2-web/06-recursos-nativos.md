@@ -132,6 +132,7 @@ const granted = await requestPermission(
 npx expo install expo-camera
 ```
 
+{% raw %}
 ```tsx
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRef, useState } from 'react';
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
   preview: { width: '100%', height: '80%', resizeMode: 'contain' },
 });
 ```
+{% endraw %}
 
 ---
 
