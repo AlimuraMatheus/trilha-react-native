@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: web-vs-rn
 title: Web vs React Native — Key Differences
 sidebar_label: Web vs React Native

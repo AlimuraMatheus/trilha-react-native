@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: rn-core-components
 title: "Module 3: React Native Core Components"
 sidebar_label: "RN Core Components"

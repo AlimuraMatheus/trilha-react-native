@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: Trilha Nativo
 nav_order: 2
 has_children: true

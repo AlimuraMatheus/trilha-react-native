@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: lists-and-navigation
 title: Lists & Navigation in React Native
 sidebar_label: Lists & Navigation

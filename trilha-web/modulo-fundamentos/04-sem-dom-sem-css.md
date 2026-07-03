@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: no-dom-no-css
 title: No DOM, No CSS — What That Actually Means
 sidebar_label: No DOM, No CSS
@@ -117,6 +118,8 @@ React Native has a simplified layout model:
 - **Every component is a flex container by default** — no block vs inline vs inline-block distinction
 - **`box-sizing: border-box` is the default** — you don't need to set it
 - **`display: 'none'` works** — but behaves differently from conditional rendering:
+
+{% raw %}
   ```tsx
   // display: 'none' — component stays mounted (state preserved), but hidden and takes no space
   <MyComponent style={{ display: isVisible ? 'flex' : 'none' }} />
@@ -124,6 +127,7 @@ React Native has a simplified layout model:
   // Conditional rendering — component fully unmounts (state lost, memory freed)
   {isVisible && <MyComponent />}
   ```
+{% endraw %}
   Use `display: 'none'` when you need to preserve state while hiding (e.g. tab screens). Use conditional rendering when you want a clean unmount.
 
 ---

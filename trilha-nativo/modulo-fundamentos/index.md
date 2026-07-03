@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: Fundamentos
 parent: Trilha Nativo
 nav_order: 1

@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: Trilha Web
 nav_order: 3
 has_children: true

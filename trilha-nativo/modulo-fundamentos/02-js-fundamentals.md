@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: js-fundamentals
 title: JavaScript Fundamentals for Native Developers
 sidebar_label: JS Fundamentals

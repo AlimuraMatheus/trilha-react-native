@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: components-and-props
 title: Components & Props in Depth
 sidebar_label: Components & Props

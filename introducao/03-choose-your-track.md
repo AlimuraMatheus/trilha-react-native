@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: choose-your-track
 title: Choose Your Track
 sidebar_label: Choose Your Track

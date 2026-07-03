@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: native-components
 title: Native Components for Web Developers
 sidebar_label: Native Components
@@ -17,7 +18,7 @@ grand_parent: Trilha Web
 |-----|--------------|-------|
 | `<div>` | `<View>` | The container for everything |
 | `<span>`, `<p>`, `<h1>`–`<h6>` | `<Text>` | ALL text must be in `<Text>` |
-| `<img>` | `<Image>` | `source={{ uri }}` for remote, `require()` for local |
+| `<img>` | `<Image>` | `source={%raw%}{{ uri }}{%endraw%}` for remote, `require()` for local |
 | `<input type="text">` | `<TextInput>` | `onChangeText` gives you the string directly |
 | `<button>` | `<Pressable>` + `<Text>` | Or `<Button>` for a simple native button |
 | `<a>` | `<Pressable>` + `navigation.navigate()` | No `href` on arbitrary elements; links are imperative |

@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: js-ts-for-native-devs
 title: "Module 1: JS/TS for Native Developers"
 sidebar_label: "Module 1 Overview"
