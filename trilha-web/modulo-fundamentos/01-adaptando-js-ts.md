@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: adapting-js-for-mobile
 title: "Module 1: Adapting JS/TS for Mobile"
 sidebar_label: "Adapting JS for Mobile"

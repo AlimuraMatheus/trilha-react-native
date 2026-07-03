@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: styling-and-flexbox
 title: Styling & Flexbox for Web Developers
 sidebar_label: Styling & Flexbox

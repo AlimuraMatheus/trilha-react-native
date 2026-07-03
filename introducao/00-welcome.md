@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: welcome
 title: Welcome to React Native Trail
 sidebar_label: Welcome

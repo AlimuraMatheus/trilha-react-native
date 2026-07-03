@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: typescript-for-web-devs
 title: TypeScript for Web Developers in React Native
 sidebar_label: TypeScript for Web Devs

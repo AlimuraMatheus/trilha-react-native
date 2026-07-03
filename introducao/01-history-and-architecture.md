@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: history-and-architecture
 title: History & Architecture of React Native
 sidebar_label: History & Architecture

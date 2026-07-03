@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: state-and-hooks
 title: State & Hooks in Depth
 sidebar_label: State & Hooks

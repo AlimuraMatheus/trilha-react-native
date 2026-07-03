@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: typescript-for-native-devs
 title: TypeScript for Native Developers
 sidebar_label: TypeScript for Native Devs

@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: layout-and-flexbox
 title: Layout & Flexbox in React Native
 sidebar_label: Layout & Flexbox

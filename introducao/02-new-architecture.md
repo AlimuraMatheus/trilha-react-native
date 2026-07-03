@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: new-architecture
 title: New Architecture Deep Dive
 sidebar_label: New Architecture Deep Dive

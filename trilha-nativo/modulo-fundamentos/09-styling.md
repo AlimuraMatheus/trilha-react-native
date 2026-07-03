@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: styling
 title: Styling in React Native
 sidebar_label: Styling

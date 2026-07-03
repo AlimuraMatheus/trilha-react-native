@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 id: react-fundamentals
 title: "Module 2: React Fundamentals for Native Developers"
 sidebar_label: "Module 2 Overview"
