@@ -268,4 +268,4 @@ The official approach is `StyleSheet.create`. NativeWind compiles Tailwind class
 
 ---
 
-Next → **[Lists & Navigation](./lists-and-navigation)**
+Next → **[Lists & Navigation](./listas-navegacao)**

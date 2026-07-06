@@ -107,3 +107,7 @@ jobs:
 - Blog: *GitHub Actions for React Native*
 - Guia: *From React Web CI to React Native CI*
 - Docs: Gradle, Android build basics
+
+---
+
+Next → **[Arquitetura](../modulo-arquitetura/topico-arquitetura-web)**

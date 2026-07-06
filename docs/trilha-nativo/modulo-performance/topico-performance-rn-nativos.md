@@ -183,15 +183,7 @@ Monte um cenário de lista grande e otimize:
 
 #### React Native Performance in Real Apps (35 min)
 
-<details>
-<summary>Descrição do conteúdo</summary>
 
-O vídeo aborda problemas reais de performance em aplicações RN em produção, mostrando sintomas como scroll travado, interações com atraso e animações engasgando. A partir de exemplos concretos, mapeia cada sintoma para uma causa provável (JS thread ocupada, lista não virtualizada, animação no lado errado do bridge).
+---
 
-Tópicos:
-- Diferença entre o custo de render no JS e custo de desenho na UI thread.
-- Como medir FPS e capturar traces úteis.
-- Estratégias de otimização específicas para listas e animações.
-- Comparação com abordagens nativas (RecyclerView vs FlatList, Core Animation vs Reanimated).
-
-</details>
+Next → **[Testes](../modulo-testes/topico-testes-nativos)**

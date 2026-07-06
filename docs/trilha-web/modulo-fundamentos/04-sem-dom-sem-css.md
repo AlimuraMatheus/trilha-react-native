@@ -181,4 +181,4 @@ RN does support a useful subset of layout and style:
 
 ---
 
-Next → **[Native Components for Web Devs](./native-components)**
+Next → **[Native Components for Web Devs](./componentes-nativos)**

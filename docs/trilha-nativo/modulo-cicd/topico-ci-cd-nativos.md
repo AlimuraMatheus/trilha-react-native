@@ -150,15 +150,7 @@ jobs:
 
 #### CI/CD for React Native Apps (40 min)
 
-<details>
-<summary>Descrição do conteúdo</summary>
 
-O vídeo mostra, passo a passo, como montar um pipeline de CI/CD completo para um app RN, incluindo etapas de lint, testes, build e distribuição. A ênfase é em projetos que já possuem pipelines nativos e precisam apenas encaixar o RN nesse fluxo.
+---
 
-Tópicos:
-- Estrutura básica de workflows no GitHub Actions.
-- Integração com Fastlane para distribuição em TestFlight/Play Store.
-- Gestão de certificados e keystores.
-- Estratégias de versionamento e incrementos de build number.
-
-</details>
+Next → **[Arquitetura](../modulo-arquitetura/topico-arquitetura-nativos)**

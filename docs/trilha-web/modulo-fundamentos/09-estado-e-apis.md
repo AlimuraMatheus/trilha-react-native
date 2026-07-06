@@ -288,3 +288,7 @@ src/
 | TanStack Query para React Native | Docs Oficiais | [tanstack.com](https://tanstack.com/query/v5/docs/framework/react/react-native) |
 | MMKV vs AsyncStorage in React Native | Artigo | [reactnativeexpert.com](https://reactnativeexpert.com/blog/mmkv-vs-asyncstorage-in-react-native/) |
 | react-native-mmkv | GitHub | [mrousavy/react-native-mmkv](https://github.com/mrousavy/react-native-mmkv) |
+
+---
+
+Next → **[Utilizando Recursos Nativos](../modulo-recursos-nativos/utilizando-recursos-nativos)**

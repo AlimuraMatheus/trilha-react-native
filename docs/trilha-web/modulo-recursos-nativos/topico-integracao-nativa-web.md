@@ -159,3 +159,7 @@ Construa um pequeno módulo de integração (do ponto de vista JS), assumindo qu
 - [Native Modules Overview — React Native Docs](https://reactnative.dev/docs/native-modules-intro)
 - Artigo: *React Native for Web Developers — Understanding Native Integration*
 - Vídeo: *Native Modules for React Developers (Conceptual Overview)*
+
+---
+
+Next → **[Performance Mobile](../modulo-performance/topico-performance-mobile-web)**

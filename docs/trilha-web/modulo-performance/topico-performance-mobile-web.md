@@ -137,3 +137,7 @@ const expensiveComputedList = useMemo(
 - [Optimizing Performance — React Native Docs](https://reactnative.dev/docs/optimizing-performance)
 - Artigo: *From React Web to React Native — Performance Gotchas*
 - Vídeo: *Performance Tips for Web Devs Coming to React Native*
+
+---
+
+Next → **[Testes](../modulo-testes/topico-testes-web)**

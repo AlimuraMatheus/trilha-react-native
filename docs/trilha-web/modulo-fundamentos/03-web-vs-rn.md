@@ -257,4 +257,4 @@ React Navigation uses a **stack model** — screens are pushed and popped like a
 
 ---
 
-Next → **[No DOM, No CSS — Styling in Depth](./no-dom-no-css)**
+Next → **[No DOM, No CSS — Styling in Depth](./sem-dom-sem-css)**

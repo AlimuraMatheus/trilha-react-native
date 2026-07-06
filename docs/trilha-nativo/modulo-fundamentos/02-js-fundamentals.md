@@ -402,4 +402,4 @@ function MyButton() {
 
 ---
 
-Next → **[TypeScript for Native Developers](./typescript-for-native-devs)**
+Next → **[TypeScript for Native Developers](./typescript)**

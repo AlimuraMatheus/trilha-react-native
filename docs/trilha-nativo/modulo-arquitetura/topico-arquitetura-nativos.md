@@ -174,14 +174,3 @@ export function RootNavigator() {
 
 #### Architecting Large React Native Apps (40 min)
 
-<details>
-<summary>Descrição do conteúdo</summary>
-
-O vídeo discute diferentes abordagens de arquitetura para apps RN, comparando estruturas por tipo (screens/components) com estruturas por feature. Mostra como trazer conceitos de MVVM/Clean para o mundo RN, incluindo separação de camadas, orquestração de casos de uso e organização da navegação em um nível de infraestrutura.
-
-Tópicos:
-- Feature folders vs camadas horizontais.
-- Organizando navegação e estado global.
-- Mapeando View/ViewModel/UseCase/Repository para componentes, hooks e services em RN.
-
-</details>

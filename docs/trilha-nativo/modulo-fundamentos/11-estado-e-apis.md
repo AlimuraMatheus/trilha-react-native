@@ -302,3 +302,7 @@ Essa separação é o equivalente ao padrão **ViewModel + Repository** do nativ
 | Como Persistir Estado com AsyncStorage e MMKV | Artigo | [OneUptime](https://oneuptime.com/blog/post/2026-01-15-react-native-asyncstorage-mmkv/view) |
 | TanStack Query para React Native | Docs Oficiais | [tanstack.com](https://tanstack.com/query/v5/docs/framework/react/react-native) |
 | react-native-mmkv | GitHub | [mrousavy/react-native-mmkv](https://github.com/mrousavy/react-native-mmkv) |
+
+---
+
+Next → **[Utilizando Recursos Nativos](../modulo-recursos-nativos/utilizando-recursos-nativos)**

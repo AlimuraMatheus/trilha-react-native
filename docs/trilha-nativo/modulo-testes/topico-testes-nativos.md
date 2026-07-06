@@ -178,15 +178,7 @@ Recomendação neste tópico:
 
 #### Unit & UI Testing in React Native (Jest + Testing Library) — 30 min
 
-<details>
-<summary>Descrição do conteúdo</summary>
 
-O vídeo apresenta de forma prática como configurar Jest em um projeto RN e como escrever testes de componentes com `@testing-library/react-native`. O foco é mostrar que o mindset de testes em RN é muito parecido com o de testes em apps nativos: isolar lógica, testar fluxos principais e garantir a robustez antes de subir para produção.
+---
 
-Tópicos:
-- Configuração de Jest e mapeamento de módulos.
-- Uso de `testID` para localizar elementos em RN.
-- Boas práticas de testes voltados ao comportamento do usuário.
-- Introdução rápida ao Detox como ferramenta de E2E.
-
-</details>
+Next → **[CI/CD](../modulo-cicd/topico-ci-cd-nativos)**

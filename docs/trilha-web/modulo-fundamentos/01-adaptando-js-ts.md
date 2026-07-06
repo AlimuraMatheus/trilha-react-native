@@ -242,4 +242,4 @@ The `expo/tsconfig.base` already configures path aliases, module resolution for 
 
 ---
 
-Next → **[TypeScript for Web Devs](./typescript-for-web-devs)**
+Next → **[TypeScript for Web Devs](./typescript)**

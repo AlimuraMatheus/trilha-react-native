@@ -391,32 +391,8 @@ Construa uma feature RN que consuma código nativo:
 
 #### React Native Native Modules — Android & iOS (30 min)
 
-<details>
-<summary>Descrição do conteúdo</summary>
-
-O vídeo apresenta o conceito de Native Modules passo a passo, começando por uma visão geral da arquitetura do RN (JS thread, bridge e camada nativa) e, em seguida, mostrando como criar um módulo simples em Android (Kotlin) e iOS (Swift). O foco é exatamente o cenário de devs nativos que querem expor funcionalidades já existentes para a camada RN sem reescrever tudo em JavaScript.
-
-São abordados:
-- Estrutura mínima de um módulo (`getName`, métodos anotados com `@ReactMethod` / `@objc`).
-- Registro do módulo via `ReactPackage` (Android) e via macros Obj-C (iOS).
-- Uso de `Promise` para operações assíncronas.
-- Boas práticas de namespacing e organização dos arquivos.
-- Integração em um app brownfield com uma Activity/VC já existente.
-
-</details>
-
 #### React Native Native UI Components — Expondo Views Nativas para JSX (25 min)
 
-<details>
-<summary>Descrição do conteúdo</summary>
+---
 
-Este vídeo demonstra como transformar uma `View`/`UIView` custom, usada hoje apenas em telas nativas, em um componente React reutilizável dentro da parte RN do app. A abordagem é análoga à criação de views custom em Android e iOS, mas com uma camada adicional de *bridge* que permite controlar props e eventos a partir do JavaScript.
-
-Tópicos abordados:
-- Criação de `ViewManager` (Android) com propriedades (`@ReactProp`).
-- Registro do manager no `ReactPackage`.
-- Exposição via `requireNativeComponent` em JS.
-- Estratégias de versionamento quando a API da view nativa muda.
-- Considerações de performance (ciclos de layout, drawing e animações).
-
-</details>
+Next → **[Performance React Native](../modulo-performance/topico-performance-rn-nativos)**

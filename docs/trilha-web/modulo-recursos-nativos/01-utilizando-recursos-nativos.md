@@ -398,3 +398,7 @@ A compatibilidade com **New Architecture** (JSI + TurboModules) é um critério 
 - [react-native-permissions — GitHub](https://github.com/zoontek/react-native-permissions)
 - [Implementing Camera Functionality in React Native — LogRocket (Dez 2024)](https://blog.logrocket.com/implementing-camera-functionality-react-native/)
 - [PermissionsAndroid — Documentação oficial React Native](https://reactnative.dev/docs/permissionsandroid)
+
+---
+
+Next → **[Integração Nativa](./topico-integracao-nativa-web)**

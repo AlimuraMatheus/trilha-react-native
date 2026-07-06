@@ -110,3 +110,7 @@ Diferenças principais em relação ao web:
 - [@testing-library/react-native Docs](https://testing-library.com/docs/react-native-testing-library/intro/)
 - Guia: *Testing React Native for React Web Developers*
 - Vídeo: *Jest & Testing Library in React Native*
+
+---
+
+Next → **[CI/CD](../modulo-cicd/topico-ci-cd-web)**
