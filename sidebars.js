@@ -40,7 +40,7 @@ const sidebars = {
       label: 'Recursos Nativos',
       collapsed: false,
       items: [
-        'trilha-nativo/modulo-recursos-nativos/recursos-nativos',
+        'trilha-nativo/modulo-recursos-nativos/utilizando-recursos-nativos',
         'trilha-nativo/modulo-recursos-nativos/integracao-nativa-avancada',
       ],
     },
