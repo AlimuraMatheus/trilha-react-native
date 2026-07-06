@@ -1,20 +1,20 @@
 ---
-title: Arquitetura
+title: Architecture
 ---
 
-# Tópico — Arquitetura (Trilha 1: Devs Nativos)
+# Topic — Architecture (Track 1: Native Devs)
 
-## Objetivo do tópico
+## Topic Goal
 
-Ao final, o dev deve conseguir:
-- Definir uma arquitetura base para apps RN médios/grandes
-- Organizar pastas por feature e por camada
-- Separar claramente:
-  - Navegação
-  - Estado global
-  - Serviços de API
-  - Módulos nativos
-- Mapear conceitos como MVVM/Clean para RN (View, ViewModel, Use Cases, Repositories)
+By the end, you should be able to:
+- Define a base architecture for medium/large RN apps
+- Organize folders by feature and by layer
+- Clearly separate:
+  - Navigation
+  - Global state
+  - API services
+  - Native modules
+- Map concepts like MVVM/Clean to RN (View, ViewModel, Use Cases, Repositories)
 
 
 ---
@@ -30,18 +30,18 @@ You can watch a demonstration of the architecture in action here:
 
 ---
 
-## Mapeamento: MVVM/Clean → React Native
+## Mapping: MVVM/Clean → React Native
 
-| Conceito Nativo       | React Native                              | Observação |
-|-----------------------|-------------------------------------------|------------|
-| View (Activity/VC)    | Componentes de Screen RN                  | Camada de UI |
-| ViewModel             | Hooks + stores (Zustand/Redux)            | Lógica de apresentação, estado |
-| Use Case / Interactor | Funções em camada de domínio/services     | Orquestram regras de negócio |
-| Repository            | Adapters para APIs remotas / storage local| Implementação de dados |
+| Native Concept        | React Native                              | Note |
+|-----------------------|-------------------------------------------|------|
+| View (Activity/VC)    | RN Screen Components                      | UI layer |
+| ViewModel             | Hooks + stores (Zustand/Redux)            | Presentation logic, state |
+| Use Case / Interactor | Functions in domain/services layer        | Orchestrate business rules |
+| Repository            | Adapters for remote APIs / local storage  | Data implementation |
 
 ---
 
-## Estrutura de projeto sugerida
+## Suggested project structure
 
 ```txt
 src/
@@ -73,14 +73,14 @@ src/
      ui/
 ```
 
-- `app/`: infraestrutura (navegação, stores globais, config).
-- `features/`: módulos de negócio (auth, feed, profile, etc.).
-- `shared/`: componentes e hooks reutilizáveis entre features.
-- `native/`: código de integração nativa (modules, UI components).
+- `app/`: infrastructure (navigation, global stores, config).
+- `features/`: business modules (auth, feed, profile, etc.).
+- `shared/`: reusable components and hooks across features.
+- `native/`: native integration code (modules, UI components).
 
 ---
 
-## Estado global (exemplo com Zustand)
+## Global state (example with Zustand)
 
 ```tsx
 // src/app/store/authStore.ts
@@ -101,7 +101,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 ```
 
-Uso em uma tela:
+Usage in a screen:
 
 ```tsx
 // src/features/profile/screens/ProfileScreen.tsx
@@ -125,9 +125,9 @@ export function ProfileScreen() {
 
 ---
 
-## Navegação como infraestrutura
+## Navigation as infrastructure
 
-A navegação (Stack/Tab/Drawer) deve ficar em `app/navigation`, fora das features específicas, para evitar acoplamento excessivo.
+Navigation (Stack/Tab/Drawer) should live in `app/navigation`, outside specific features, to avoid excessive coupling.
 
 ```tsx
 // src/app/navigation/RootNavigator.tsx
@@ -152,22 +152,20 @@ export function RootNavigator() {
 
 ---
 
-## Exercício prático
+## Practical exercise
 
-1. Pegue o app RN criado nos tópicos anteriores (login + drawer + tabs).
-2. Reorganize o projeto para seguir a estrutura proposta (`app/`, `features/`, `shared/`, `native/`).
-3. Crie ao menos:
-   - Um hook de domínio (ex.: `useFeed()` em `features/feed/hooks`).
-   - Um módulo de API (`features/feed/api/feedApi.ts`).
-4. Documente a arquitetura em um arquivo `ARCHITECTURE.md` na pasta `src/` explicando como cada camada se relaciona.
+1. Take the RN app created in previous topics (login + drawer + tabs).
+2. Reorganize the project to follow the proposed structure (`app/`, `features/`, `shared/`, `native/`).
+3. Create at least:
+   - A domain hook (e.g.: `useFeed()` in `features/feed/hooks`).
+   - An API module (`features/feed/api/feedApi.ts`).
+4. Document the architecture in an `ARCHITECTURE.md` file in the `src/` folder explaining how each layer relates to the others.
 
 ---
 
-## Materiais de estudo
+## Study Materials
 
-### Artigos
-- *React Native Architecture for Scale* — guia para estruturar apps grandes.
-- *Feature-based Folder Structure in React Native* — foco em modularização por feature.
-- *Clean Architecture in Mobile Apps — Mapping to React Native* — mapeia MVVM/Clean para RN.
-
-
+### Articles
+- *React Native Architecture for Scale* — guide to structuring large apps.
+- *Feature-based Folder Structure in React Native* — focus on modularization by feature.
+- *Clean Architecture in Mobile Apps — Mapping to React Native* — maps MVVM/Clean to RN.

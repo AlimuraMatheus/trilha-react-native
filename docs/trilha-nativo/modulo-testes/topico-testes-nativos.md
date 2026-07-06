@@ -1,17 +1,17 @@
 ---
-title: Testes
+title: Testing
 ---
 
-# Tópico — Testes (Trilha 1: Devs Nativos)
+# Topic — Testing (Track 1: Native Devs)
 
-## Objetivo do tópico
+## Topic Goal
 
-Ao final, o dev deve conseguir:
-- Configurar Jest em um projeto RN
-- Escrever testes de unidade para lógica (hooks, helpers, services)
-- Escrever testes de componentes com `@testing-library/react-native`
-- Entender o papel de testes E2E com Detox e como se comparam a Espresso/XCUITest
-- Integrar a suíte de testes ao pipeline de CI
+By the end, you should be able to:
+- Configure Jest in a RN project
+- Write unit tests for logic (hooks, helpers, services)
+- Write component tests with `@testing-library/react-native`
+- Understand the role of E2E tests with Detox and how they compare to Espresso/XCUITest
+- Integrate the test suite into the CI pipeline
 
 ---
 
@@ -24,28 +24,28 @@ Ao final, o dev deve conseguir:
 
 ---
 
-## Mapeamento: Android/iOS → React Native
+## Mapping: Android/iOS → React Native
 
-| Nativo                      | React Native                            | Observação |
+| Native                      | React Native                            | Note |
 |-----------------------------|------------------------------------------|------------|
 | JUnit / XCTest              | Jest                                     | Unit tests, mocks |
-| Espresso / XCUITest         | Detox                                    | E2E de UI móvel |
-| Testes de ViewModel / Presenter | Testes de hooks / stores            | Lógica de UI e estado |
-| Testes de Fragment/ViewController | Testes de screens/containers RN | Comportamento visual + fluxo |
+| Espresso / XCUITest         | Detox                                    | Mobile UI E2E |
+| ViewModel / Presenter tests | Hook / store tests            | UI logic and state |
+| Fragment/ViewController tests | RN screen/container tests | Visual behavior + flow |
 
 ---
 
-## Ferramentas principais
+## Main Tools
 
-- **Jest**: runner de testes, mocks, snapshots.
-- **@testing-library/react-native**: testes de componentes RN, focados em comportamento (não em implementação).
-- **Detox**: testes E2E (não detalhado em código aqui, mas apresentado conceitualmente).
+- **Jest**: test runner, mocks, snapshots.
+- **@testing-library/react-native**: RN component tests, focused on behavior (not implementation).
+- **Detox**: E2E tests (not detailed in code here, but presented conceptually).
 
 ---
 
-## Testando componentes com `@testing-library/react-native`
+## Testing Components with `@testing-library/react-native`
 
-Exemplo de tela de login com validação simples:
+Example of a login screen with simple validation:
 
 
 ```tsx
@@ -80,7 +80,7 @@ export function LoginScreen() {
 ```
 
 
-Teste da tela:
+Screen test:
 
 
 ```tsx
@@ -103,7 +103,7 @@ test('mostra mensagem de erro para email inválido', () => {
 
 ---
 
-## Testando lógica (hooks, helpers)
+## Testing Logic (hooks, helpers)
 
 
 ```tsx
@@ -139,38 +139,38 @@ describe('getPasswordStrength', () => {
 
 ---
 
-## Papel dos testes E2E (Detox)
+## The Role of E2E Tests (Detox)
 
-Detox ocupa o mesmo espaço conceitual de Espresso/XCUITest:
-- Roda o app em um device/emulador real.
-- Interage com elementos da UI por IDs/texto.
-- Valida fluxos completos (login, navegação, etc.).
+Detox occupies the same conceptual space as Espresso/XCUITest:
+- Runs the app on a real device/emulator.
+- Interacts with UI elements by IDs/text.
+- Validates complete flows (login, navigation, etc.).
 
-Recomendação neste tópico:
-- Introduzir o conceito.
-- Mostrar exemplos de comandos (instalação, run). 
-- Detalhar implementação em um tópico próprio de testes E2E (fora do escopo imediato).
-
----
-
-## Exercício prático
-
-1. Escolha uma tela com validação simples (ex.: formulário de login ou cadastro).
-2. Escreva testes cobrindo:
-   - Renderização inicial.
-   - Validação de campos (erro vs sucesso).
-   - Chamada de callback de submit (use `jest.fn()` para mockar).
-3. Execute a suíte de testes com `npm test` ou `yarn test`.
-4. Integre a execução de testes ao pipeline de CI (ver tópico de CI/CD).
+Recommendation for this topic:
+- Introduce the concept.
+- Show command examples (installation, run).
+- Detail implementation in a dedicated E2E testing topic (outside the immediate scope).
 
 ---
 
-## Materiais de estudo
+## Practical Exercise
 
-### Documentação oficial
+1. Choose a screen with simple validation (e.g.: login or registration form).
+2. Write tests covering:
+   - Initial rendering.
+   - Field validation (error vs success).
+   - Submit callback invocation (use `jest.fn()` to mock).
+3. Run the test suite with `npm test` or `yarn test`.
+4. Integrate test execution into the CI pipeline (see CI/CD topic).
+
+---
+
+## Study Materials
+
+### Official Documentation
 - [Testing Overview](https://reactnative.dev/docs/testing-overview)
 
-### Artigos
+### Articles
 - *Testing React Native Components with Testing Library*.
 - *From JUnit/XCTest to Jest: Mapping Mobile Test Practices to React Native*.
 

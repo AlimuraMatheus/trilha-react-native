@@ -255,7 +255,7 @@ function MainTabs() {
 
 ---
 
-Next → **[Navegação](./navegacao-web)**
+Next → **[Navigation](./navegacao-web)**
 
 ---
 

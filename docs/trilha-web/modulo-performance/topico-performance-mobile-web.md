@@ -1,18 +1,18 @@
 ---
-title: Performance Mobile
+title: Mobile Performance
 ---
 
-# Tópico — Performance Mobile (Trilha Web) 
+# Topic — Mobile Performance (Web Track)
 
-### Objetivo do tópico
+### Topic Goal
 
-Ao final, o dev deve conseguir:
+By the end, you should be able to:
 
-- Explicar o modelo de threads do RN (JS vs UI vs nativo)
-- Utilizar `FlatList` de forma performática para listas grandes
-- Reduzir re-renders desnecessários com `React.memo`, `useCallback`, `useMemo`
-- Perceber diferenças entre performance web e mobile (hardware, toques, animações)
-- Usar perf monitor e Flipper para inspecionar FPS e uso de recursos
+- Explain the RN thread model (JS vs UI vs native)
+- Use `FlatList` in a performant way for large lists
+- Reduce unnecessary re-renders with `React.memo`, `useCallback`, `useMemo`
+- Notice differences between web and mobile performance (hardware, touches, animations)
+- Use the perf monitor and Flipper to inspect FPS and resource usage
 
 ---
 
@@ -25,19 +25,19 @@ Ao final, o dev deve conseguir:
 
 ---
 
-### Modelo mental de performance em RN
+### Mental model for performance in RN
 
-RN não tem DOM, mas tem problemas equivalentes a “excesso de render” que você já conhece:
+RN has no DOM, but it has problems equivalent to "excessive re-renders" that you already know:
 
-- **JS Thread**: semelhante ao “main thread” da aplicação React web — roda sua lógica, hooks, render.
-- **UI Thread**: cuida da renderização nativa de views, toques, animações.
-- **Ponte (bridge)**: comunicação entre JS e nativo; tráfego excessivo pode prejudicar performance.
+- **JS Thread**: similar to the "main thread" of a React web application — runs your logic, hooks, render.
+- **UI Thread**: handles native view rendering, touches, animations.
+- **Bridge**: communication between JS and native; excessive traffic can hurt performance.
 
 ---
 
-### Listas grandes — `FlatList` como “virtualized list”
+### Large lists — `FlatList` as a "virtualized list"
 
-Assim como você não renderiza 10.000 itens no DOM de uma vez, em RN você usa `FlatList`:
+Just as you don't render 10,000 items in the DOM at once, in RN you use `FlatList`:
 
 
 ```tsx
@@ -82,23 +82,23 @@ export function BigList({ items }: { items: Item[] }) {
 ```
 
 
-Boas práticas (paralelo com web):
+Best practices (parallel with web):
 
-- `React.memo` em itens de lista — equivalente ao evitar re-render de linhas de tabela.
-- `useCallback` para `renderItem` — evita função nova por render.
-- `getItemLayout` — ajuda RN a calcular posições sem precisar medir (ganho em scroll).
+- `React.memo` on list items — equivalent to avoiding re-renders of table rows.
+- `useCallback` for `renderItem` — avoids creating a new function on each render.
+- `getItemLayout` — helps RN calculate positions without measuring (scroll performance gain).
 
 ---
 
-### Minimizar trabalho na JS thread
+### Minimizing work on the JS thread
 
-Tal como no browser:
+Just like in the browser:
 
-- Evite loops pesados em handlers de scroll ou eventos frequentes.
-- Evite construir objetos grandes em cada render.
-- Use memoização (`useMemo`) quando cálculo for caro e dependências raramente mudarem.
+- Avoid heavy loops in scroll handlers or frequent event handlers.
+- Avoid building large objects on every render.
+- Use memoization (`useMemo`) when computation is expensive and dependencies rarely change.
 
-Exemplo simples:
+Simple example:
 
 ```tsx
 const expensiveComputedList = useMemo(
@@ -109,35 +109,35 @@ const expensiveComputedList = useMemo(
 
 ---
 
-### Ferramentas de observação
+### Observation tools
 
-- **Perf Monitor** (`Debug → Show Perf Monitor`): mostra FPS de UI/JS.
+- **Perf Monitor** (`Debug → Show Perf Monitor`): shows UI/JS FPS.
 - **Flipper**:
-  - Plugin React Native para ver perf, logs e eventos.
-  - Ajuda a identificar warnings como “VirtualizedLists should never be nested” e listas mal configuradas.
+  - React Native plugin for viewing performance, logs, and events.
+  - Helps identify warnings like "VirtualizedLists should never be nested" and misconfigured lists.
 
 ---
 
-### Exercício prático
+### Hands-on exercise
 
-1. Crie uma tela com uma lista de 5.000 itens mockados.
-2. Implemente versão “ingênua”:
-   - Usando `ScrollView` com `.map()` ou `FlatList` sem nenhuma otimização.
+1. Create a screen with a list of 5,000 mocked items.
+2. Implement a "naive" version:
+   - Using `ScrollView` with `.map()` or `FlatList` with no optimizations.
 3. Observe:
-   - Latência ao abrir a tela.
-   - Fluidez do scroll.
-4. Migre para uma versão otimizada:
-   - `FlatList` com `React.memo`, `useCallback`, `getItemLayout`, `initialNumToRender`, `windowSize`.
-5. Documente as diferenças (antes/depois) em FPS e sensação de uso.
+   - Latency when opening the screen.
+   - Scroll smoothness.
+4. Migrate to an optimized version:
+   - `FlatList` with `React.memo`, `useCallback`, `getItemLayout`, `initialNumToRender`, `windowSize`.
+5. Document the differences (before/after) in FPS and perceived usability.
 
 ---
 
-### Materiais de estudo
+### Study Materials
 
 - [Optimizing Performance — React Native Docs](https://reactnative.dev/docs/optimizing-performance)
-- Artigo: *From React Web to React Native — Performance Gotchas*
-- Vídeo: *Performance Tips for Web Devs Coming to React Native*
+- Article: *From React Web to React Native — Performance Gotchas*
+- Video: *Performance Tips for Web Devs Coming to React Native*
 
 ---
 
-Next → **[Testes](../modulo-testes/topico-testes-web)**
+Next → **[Tests](../modulo-testes/topico-testes-web)**

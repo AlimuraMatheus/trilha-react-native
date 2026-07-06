@@ -307,5 +307,4 @@ function MyScreen() {
 
 ---
 
-Next → **[Navegação](./navegacao-nativo)**
-
+Next → **[Navigation](./navegacao-nativo)**

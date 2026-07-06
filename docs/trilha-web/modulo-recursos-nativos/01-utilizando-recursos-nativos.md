@@ -1,78 +1,78 @@
 ---
 id: utilizando-recursos-nativos
-title: "Utilizando Recursos Nativos"
-sidebar_label: "Utilizando Recursos Nativos"
+title: "Using Native Resources"
+sidebar_label: "Using Native Resources"
 sidebar_position: 1
 ---
 
-# Tópico 1 — Utilizando Recursos Nativos (Trilha 1: Devs Web/React)
+# Topic 1 — Using Native Resources (Track 1: Web/React Developers)
 
 ---
 
-## Objetivo do tópico
+## Topic Goal
 
-Ao final, o dev deve conseguir:
-- Entender o modelo de permissões mobile (muito mais restritivo que o browser)
-- Solicitar, verificar e tratar permissões bloqueadas
-- Capturar fotos com expo-camera
-- Acessar geolocalização
-- Usar storage local
-- Enviar e receber notificações push
-- Saber quando e como pesquisar libs no ecossistema Expo
-
----
-
-## O que NÃO existe no mobile (mas existe no browser)
-
-| API Browser | Por que não existe no RN | Alternativa |
-|-------------|-------------------------|-------------|
-| `navigator.geolocation` | Sem `window`/`navigator` | `expo-location` |
-| `navigator.mediaDevices.getUserMedia()` | Sem WebRTC / DOM | `expo-camera` / `react-native-vision-camera` |
-| `Notification API` | Sem Service Workers | `expo-notifications` |
-| `localStorage` | Sem DOM Storage | MMKV / AsyncStorage |
-| `File API` | Sem FileSystem web | `expo-file-system` / `react-native-fs` |
-| `Clipboard API` | Parcialmente diferente | `expo-clipboard` |
-| `fetch` | ✅ Existe! | Funciona igual |
-| `WebSocket` | ✅ Existe! | Funciona igual |
+By the end, you should be able to:
+- Understand the mobile permissions model (far more restrictive than the browser)
+- Request, verify, and handle blocked permissions
+- Capture photos with expo-camera
+- Access geolocation
+- Use local storage
+- Send and receive push notifications
+- Know when and how to search for libs in the Expo ecosystem
 
 ---
 
-## O modelo de permissões no mobile
+## What does NOT exist on mobile (but exists in the browser)
 
-No browser, o modelo é binário: o usuário aceita ou rejeita no diálogo do navegador, e você reage a isso. No mobile, o modelo é mais restritivo e tem estados adicionais que mudam o comportamento do app.
+| Browser API | Why it doesn't exist in RN | Alternative |
+|-------------|---------------------------|-------------|
+| `navigator.geolocation` | No `window`/`navigator` | `expo-location` |
+| `navigator.mediaDevices.getUserMedia()` | No WebRTC / DOM | `expo-camera` / `react-native-vision-camera` |
+| `Notification API` | No Service Workers | `expo-notifications` |
+| `localStorage` | No DOM Storage | MMKV / AsyncStorage |
+| `File API` | No web FileSystem | `expo-file-system` / `react-native-fs` |
+| `Clipboard API` | Partially different | `expo-clipboard` |
+| `fetch` | Available! | Works the same |
+| `WebSocket` | Available! | Works the same |
 
-A diferença mais importante é o estado `BLOCKED`: no iOS, o sistema exibe o diálogo de permissão **uma única vez** — se o usuário negar, o OS nunca mais mostra esse diálogo. O app não pode forçar uma nova exibição; só pode redirecionar para as Configurações do sistema. No Android, o comportamento variou entre versões: a partir do Android 11, o sistema também pode bloquear permissões automaticamente se o app não for usado por um tempo.
+---
 
-Outro estado sem equivalente no browser é o `LIMITED`, introduzido no iOS 14 para a biblioteca de fotos: o usuário pode escolher quais fotos específicas o app pode acessar, em vez de dar acesso total ao rolo. Seu app precisa tratar esse estado de forma diferente de `GRANTED`.
+## The permissions model on mobile
+
+In the browser, the model is binary: the user accepts or rejects in the browser dialog, and you react to that. On mobile, the model is more restrictive and has additional states that change app behavior.
+
+The most important difference is the `BLOCKED` state: on iOS, the system shows the permission dialog **only once** — if the user denies it, the OS never shows that dialog again. The app cannot force a new prompt; it can only redirect to System Settings. On Android, behavior varied across versions: starting with Android 11, the system can also automatically block permissions if the app hasn't been used for a while.
+
+Another state with no browser equivalent is `LIMITED`, introduced in iOS 14 for the photo library: the user can choose which specific photos the app can access, instead of granting full access to the camera roll. Your app needs to handle this state differently from `GRANTED`.
 
 ```
-Permissão não verificada
+Permission not checked
         ↓
-    check()  ←─── sempre verifique antes de pedir
+    check()  ←─── always check before requesting
         ↓
 ┌──────────────────┐
-│ DENIED (padrão)  │ → request() → dialog para o usuário
-│ GRANTED          │ → pode usar o recurso
-│ BLOCKED          │ → usuário negou e "nunca perguntar novamente"
-│ LIMITED (iOS)    │ → acesso parcial (ex: fotos selecionadas)
-│ UNAVAILABLE      │ → recurso não existe no dispositivo
+│ DENIED (default) │ → request() → dialog for the user
+│ GRANTED          │ → can use the resource
+│ BLOCKED          │ → user denied and "never ask again"
+│ LIMITED (iOS)    │ → partial access (e.g. selected photos)
+│ UNAVAILABLE      │ → resource doesn't exist on the device
 └──────────────────┘
 ```
 
-A razão de sempre chamar `check()` antes de `request()` é precisa: se o status já é `BLOCKED`, chamar `request()` não faz nada — nenhum diálogo aparece, nenhum erro é lançado. Sem o check, o botão da sua UI parece quebrado para o usuário.
+The reason to always call `check()` before `request()` is precise: if the status is already `BLOCKED`, calling `request()` does nothing — no dialog appears, no error is thrown. Without the check, your UI button appears broken to the user.
 
-> **Estado BLOCKED é irreversível pelo app** — você só pode redirecionar o usuário para as Configurações do sistema. É o equivalente a "permissão permanentemente negada" e requer atenção especial no UX.
+> **The BLOCKED state is irreversible by the app** — you can only redirect the user to System Settings. It is the equivalent of "permanently denied permission" and requires special attention in UX.
 
 ---
 
-## 1. Permissões com react-native-permissions
+## 1. Permissions with react-native-permissions
 
 ```bash
 npm install react-native-permissions
 cd ios && pod install
 ```
 
-**Podfile (iOS)** — descomentar o que for usar:
+**Podfile (iOS)** — uncomment what you need:
 ```ruby
 setup_permissions(['Camera', 'LocationWhenInUse', 'PhotoLibrary'])
 ```
@@ -91,7 +91,7 @@ setup_permissions(['Camera', 'LocationWhenInUse', 'PhotoLibrary'])
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
-### Hook reutilizável de permissão
+### Reusable permission hook
 
 ```tsx
 import { check, request, PERMISSIONS, RESULTS, openSettings, Permission } from 'react-native-permissions';
@@ -127,7 +127,7 @@ export async function requestPermission(
   return result === RESULTS.GRANTED;
 }
 
-// Uso
+// Usage
 const granted = await requestPermission(
   PERMISSIONS.IOS.CAMERA,
   PERMISSIONS.ANDROID.CAMERA,
@@ -137,15 +137,15 @@ const granted = await requestPermission(
 
 ---
 
-## 2. Câmera com expo-camera
+## 2. Camera with expo-camera
 
-### Por que não funciona igual ao browser
+### Why it doesn't work like the browser
 
-No browser, `getUserMedia()` retorna um `MediaStream` que você conecta a um elemento `<video>` no DOM. Tudo é web API, não há hardware direto.
+In the browser, `getUserMedia()` returns a `MediaStream` that you connect to a `<video>` element in the DOM. Everything is a web API, there is no direct hardware access.
 
-No mobile, não existe DOM. A câmera é hardware acessado via APIs nativas de baixo nível: `Camera2`/`CameraX` no Android e `AVFoundation` no iOS. `expo-camera` encapsula esse acesso nativo em um componente React — `<CameraView>` — que renderiza o preview da câmera como uma View nativa na tela, não um elemento HTML.
+On mobile, there is no DOM. The camera is hardware accessed via low-level native APIs: `Camera2`/`CameraX` on Android and `AVFoundation` on iOS. `expo-camera` wraps that native access in a React component — `<CameraView>` — which renders the camera preview as a native View on screen, not an HTML element.
 
-O ref funciona como ferramenta de acesso imperativo à câmera: `cameraRef.current?.takePictureAsync()` dispara o shutter no hardware e retorna um objeto com a URI do arquivo salvo localmente. Essa URI é um caminho no filesystem do dispositivo (ex: `file:///var/mobile/...`), não uma URL de rede.
+The ref works as an imperative access tool to the camera: `cameraRef.current?.takePictureAsync()` fires the shutter on the hardware and returns an object with the URI of the file saved locally. That URI is a path on the device's filesystem (e.g. `file:///var/mobile/...`), not a network URL.
 
 ```bash
 npx expo install expo-camera
@@ -161,7 +161,7 @@ export function CameraScreen() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const cameraRef = useRef<CameraView>(null);
 
-  // Tela de permissão — similar ao `getUserMedia` no browser
+  // Permission screen — similar to `getUserMedia` in the browser
   if (!permission) return <View />;
   if (!permission.granted) {
     return (
@@ -174,7 +174,7 @@ export function CameraScreen() {
   async function takePicture() {
     const photo = await cameraRef.current?.takePictureAsync({
       quality: 0.8,
-      base64: false, // URI local, não base64
+      base64: false, // local URI, not base64
     });
     setPhotoUri(photo?.uri ?? null);
   }
@@ -207,15 +207,15 @@ const styles = StyleSheet.create({
 
 ---
 
-## 3. Geolocalização com expo-location
+## 3. Geolocation with expo-location
 
-### Por que não funciona igual ao browser
+### Why it doesn't work like the browser
 
-`navigator.geolocation.getCurrentPosition()` existe no browser e funciona via Web API — o navegador abstrai a fonte de localização (GPS, Wi-Fi, IP). No React Native, não existe `window.navigator` — o runtime é Hermes (JS engine), não um browser.
+`navigator.geolocation.getCurrentPosition()` exists in the browser and works via the Web API — the browser abstracts the location source (GPS, Wi-Fi, IP). In React Native, there is no `window.navigator` — the runtime is Hermes (JS engine), not a browser.
 
-A localização mobile é mais poderosa do que no browser e por isso mais regulada. No browser, o usuário aceita ou nega no nível da aba. No mobile, existe a distinção entre **foreground** (localização enquanto o app está visível) e **background** (localização quando o app está em segundo plano ou fechado). Background location requer permissão separada nas duas plataformas, justificativa para as stores e tem impacto direto na bateria — você só deve solicitar se o app genuinamente precisar (apps de delivery, fitness, rastreamento).
+Mobile location is more powerful than in the browser and therefore more regulated. In the browser, the user accepts or denies at the tab level. On mobile, there is a distinction between **foreground** (location while the app is visible) and **background** (location when the app is in the background or closed). Background location requires a separate permission on both platforms, justification for the stores, and has a direct impact on battery — you should only request it if the app genuinely needs it (delivery, fitness, tracking apps).
 
-O parâmetro `accuracy` determina qual fonte de hardware é usada. `High` ativa o GPS, que é preciso mas consome bateria. `Balanced` usa a fusão de GPS + Wi-Fi + rede celular (FusedLocationProvider no Android), que equilibra precisão e consumo. Para apps que só precisam saber a cidade ou bairro do usuário, `Low` é suficiente e muito mais eficiente.
+The `accuracy` parameter determines which hardware source is used. `High` activates GPS, which is precise but consumes battery. `Balanced` uses the fusion of GPS + Wi-Fi + cellular network (FusedLocationProvider on Android), which balances precision and power consumption. For apps that only need to know the user's city or neighborhood, `Low` is sufficient and much more efficient.
 
 ```bash
 npx expo install expo-location
@@ -224,7 +224,7 @@ npx expo install expo-location
 ```tsx
 import * as Location from 'expo-location';
 
-// Equivalente ao navigator.geolocation.getCurrentPosition()
+// Equivalent to navigator.geolocation.getCurrentPosition()
 async function getLocation() {
   const { status } = await Location.requestForegroundPermissionsAsync();
   
@@ -243,7 +243,7 @@ async function getLocation() {
   };
 }
 
-// Monitoramento contínuo (equivalente ao watchPosition)
+// Continuous monitoring (equivalent to watchPosition)
 async function watchLocation(onUpdate: (coords: { lat: number; lng: number }) => void) {
   const { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') return;
@@ -264,23 +264,23 @@ async function watchLocation(onUpdate: (coords: { lat: number; lng: number }) =>
 
 ---
 
-## 4. Notificações Push com expo-notifications
+## 4. Push Notifications with expo-notifications
 
-### Por que é tão diferente do browser
+### Why it's so different from the browser
 
-A Web Notification API usa Service Workers — scripts que o browser mantém rodando em background para receber mensagens via Push API. No mobile não existe esse conceito: quem mantém a conexão aberta e entrega as notificações é o **sistema operacional**, não o app.
+The Web Notification API uses Service Workers — scripts that the browser keeps running in the background to receive messages via the Push API. On mobile, this concept doesn't exist: it is the **operating system**, not the app, that maintains the open connection and delivers notifications.
 
-O fluxo real de uma notificação push no mobile é:
+The real flow of a push notification on mobile is:
 
 ```
-Seu backend → FCM (Android) / APNs (iOS) → SO → app
+Your backend → FCM (Android) / APNs (iOS) → OS → app
 ```
 
-O dispositivo abre uma conexão persistente com os servidores do Google (FCM) ou da Apple (APNs). Quando seu backend quer notificar o usuário, ele não manda direto para o dispositivo — ele faz um request autenticado para o FCM ou APNs, que entrega ao dispositivo pela conexão que já está aberta. Isso significa que o app pode estar fechado: a notificação chega via SO, não via JavaScript.
+The device opens a persistent connection with Google's (FCM) or Apple's (APNs) servers. When your backend wants to notify the user, it doesn't send directly to the device — it makes an authenticated request to FCM or APNs, which delivers it to the device via the already open connection. This means the app can be closed: the notification arrives via the OS, not via JavaScript.
 
-O `expoPushToken` retornado por `getExpoPushTokenAsync()` é um identificador que o Expo usa como intermediário. O Expo tem seus próprios servidores que recebem seu request e repassam para o FCM ou APNs correto, evitando que você precise configurar credenciais separadas para iOS e Android. Em produção com alto volume, equipes costumam migrar para envio direto ao FCM/APNs para ter controle total.
+The `expoPushToken` returned by `getExpoPushTokenAsync()` is an identifier that Expo uses as an intermediary. Expo has its own servers that receive your request and forward it to the correct FCM or APNs, avoiding the need to configure separate credentials for iOS and Android. In production with high volume, teams often migrate to direct FCM/APNs delivery for full control.
 
-O `setNotificationHandler` controla o que acontece quando uma notificação chega enquanto o app está em **foreground**. Sem ele, notificações recebidas com o app aberto são silenciosas. O comportamento em background e com o app fechado é controlado pelo sistema operacional.
+`setNotificationHandler` controls what happens when a notification arrives while the app is in the **foreground**. Without it, notifications received while the app is open are silent. Background behavior and behavior when the app is closed is controlled by the operating system.
 
 ```bash
 npx expo install expo-notifications expo-device
@@ -291,7 +291,7 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { useEffect, useRef } from 'react';
 
-// Configuração global do comportamento ao receber notificação
+// Global configuration for notification handling behavior
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -317,17 +317,17 @@ async function registerForPushNotifications(): Promise<string | null> {
   if (finalStatus !== 'granted') return null;
 
   const token = await Notifications.getExpoPushTokenAsync();
-  return token.data; // envie este token para o seu backend
+  return token.data; // send this token to your backend
 }
 
-// Hook para gerenciar notificações na tela
+// Hook to manage notifications on screen
 export function usePushNotifications() {
   const notificationListener = useRef<Notifications.EventSubscription>();
 
   useEffect(() => {
     registerForPushNotifications();
 
-    // Listener para notificações recebidas com o app aberto
+    // Listener for notifications received while the app is open
     notificationListener.current = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log('Notificação recebida:', notification);
@@ -343,57 +343,57 @@ export function usePushNotifications() {
 
 ---
 
-## Como encontrar libs no ecossistema Expo
+## How to find libs in the Expo ecosystem
 
-No browser, você busca `npm install <pacote>` e geralmente o pacote roda. No React Native, muitas libs têm código nativo (Java/Kotlin para Android, Objective-C/Swift para iOS) que precisa ser compilado junto com o app. Isso muda a dinâmica de escolha de dependência.
+In the browser, you run `npm install <package>` and the package generally works. In React Native, many libs have native code (Java/Kotlin for Android, Objective-C/Swift for iOS) that needs to be compiled together with the app. This changes the dynamic of choosing a dependency.
 
-Quando você precisa de um recurso nativo, siga essa ordem:
+When you need a native resource, follow this order:
 
-1. **[docs.expo.dev](https://docs.expo.dev)** — Se existe uma lib `expo-*`, ela é a primeira opção. Libs do Expo são testadas em conjunto com a versão do Expo SDK que você usa, têm manutenção garantida pelo time do Expo e funcionam com Expo Go durante o desenvolvimento sem precisar de build nativo.
-2. **[reactnative.directory](https://reactnative.directory)** — Diretório da comunidade com filtros por plataforma, suporte a New Architecture e data de última atualização. Prefira libs marcadas como compatíveis com New Architecture.
-3. **npm** com filtro `react-native-*` como último recurso.
+1. **[docs.expo.dev](https://docs.expo.dev)** — If an `expo-*` lib exists, it is the first choice. Expo libs are tested together with the Expo SDK version you are using, have guaranteed maintenance by the Expo team, and work with Expo Go during development without needing a native build.
+2. **[reactnative.directory](https://reactnative.directory)** — Community directory with filters by platform, New Architecture support, and last update date. Prefer libs marked as compatible with New Architecture.
+3. **npm** with the `react-native-*` filter as a last resort.
 
-A compatibilidade com **New Architecture** (JSI + TurboModules) é um critério importante: libs que ainda usam o modelo antigo de bridge podem ter problemas de performance ou deprecação futura. O React Native Directory indica isso explicitamente.
+Compatibility with **New Architecture** (JSI + TurboModules) is an important criterion: libs that still use the old bridge model may have performance issues or future deprecation. The React Native Directory indicates this explicitly.
 
-> Sempre verifique a data do último commit e o número de issues abertas antes de adotar uma lib de terceiro em produção.
-
----
-
-## Diferenças que pegam o dev web de surpresa
-
-| Expectativa (web) | Realidade (mobile) |
-|------------------|-------------------|
-| Permissão é simples: aceitar ou negar | 5 estados possíveis: GRANTED, DENIED, BLOCKED, LIMITED, UNAVAILABLE |
-| Câmera via `getUserMedia` | Componente React (`<CameraView>`) com ref para tirar foto |
-| `navigator.geolocation.getCurrentPosition` | Função assíncrona com permissão explícita |
-| `new Notification(...)` | Sistema complexo com tokens, servidores push (APNs/FCM) |
-| `localStorage.setItem` | `storage.set(key, value)` síncrono (MMKV) |
+> Always check the date of the last commit and the number of open issues before adopting a third-party lib in production.
 
 ---
 
-## Exercício prático
+## Differences that catch the web developer off guard
 
-1. Crie uma tela que solicita permissão de câmera com UX para o estado `BLOCKED`
-2. Implemente captura de foto e exiba a preview
-3. Salve a URI da foto no MMKV para persistir entre sessões
-4. Mostre a localização atual do usuário em um `Text`
-5. Configure notificações push e exiba o token gerado
+| Expectation (web) | Reality (mobile) |
+|-------------------|-----------------|
+| Permission is simple: accept or deny | 5 possible states: GRANTED, DENIED, BLOCKED, LIMITED, UNAVAILABLE |
+| Camera via `getUserMedia` | React component (`<CameraView>`) with ref to take photo |
+| `navigator.geolocation.getCurrentPosition` | Async function with explicit permission |
+| `new Notification(...)` | Complex system with tokens, push servers (APNs/FCM) |
+| `localStorage.setItem` | `storage.set(key, value)` synchronous (MMKV) |
 
 ---
 
-## Materiais de estudo
+## Practical Exercise
 
-### Artigos e Docs
-- [Expo Permissions Guide — Documentação oficial](https://docs.expo.dev/guides/permissions/)
-- [Expo Camera — Documentação oficial](https://docs.expo.dev/versions/latest/sdk/camera/)
+1. Create a screen that requests camera permission with UX for the `BLOCKED` state
+2. Implement photo capture and display the preview
+3. Save the photo URI in MMKV to persist between sessions
+4. Show the user's current location in a `Text`
+5. Configure push notifications and display the generated token
+
+---
+
+## Study Materials
+
+### Articles & Docs
+- [Expo Permissions Guide — Official Documentation](https://docs.expo.dev/guides/permissions/)
+- [Expo Camera — Official Documentation](https://docs.expo.dev/versions/latest/sdk/camera/)
 - [VisionCamera — Getting Started](https://react-native-vision-camera.com/docs/guides)
 - [Master React Native Permissions — CoderCrafter](https://codercrafter.in/blogs/react-native/master-react-native-permissions-a-no-bs-guide-to-camera-location-access)
 - [Comprehensive Guide to Permissions in React Native 2025](https://www.iamrajklwr.com/blogs/a-comprehensive-guide-to-managing-permissions-in-react-native-2025)
 - [How to Handle Platform-Specific Permissions — OneUptime](https://oneuptime.com/blog/post/2026-01-15-react-native-permissions/view)
 - [react-native-permissions — GitHub](https://github.com/zoontek/react-native-permissions)
-- [Implementing Camera Functionality in React Native — LogRocket (Dez 2024)](https://blog.logrocket.com/implementing-camera-functionality-react-native/)
-- [PermissionsAndroid — Documentação oficial React Native](https://reactnative.dev/docs/permissionsandroid)
+- [Implementing Camera Functionality in React Native — LogRocket (Dec 2024)](https://blog.logrocket.com/implementing-camera-functionality-react-native/)
+- [PermissionsAndroid — Official React Native Documentation](https://reactnative.dev/docs/permissionsandroid)
 
 ---
 
-Next → **[Integração Nativa](./topico-integracao-nativa-web)**
+Next → **[Native Integration](./topico-integracao-nativa-web)**
