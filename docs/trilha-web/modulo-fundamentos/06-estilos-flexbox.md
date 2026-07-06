@@ -99,7 +99,7 @@ alignSelf: 'auto' | 'flex-start' | 'flex-end' | 'center' | 'stretch'
 
 The same Flexbox model you already know from web CSS works in RN:
 
-🐸 **[Play Flexbox Froggy](https://flexboxfroggy.com/)** — 24 interactive levels. Every concept you learn here applies directly in RN.
+ **[Play Flexbox Froggy](https://flexboxfroggy.com/)** — 24 interactive levels. Every concept you learn here applies directly in RN.
 
 ---
 

@@ -39,7 +39,7 @@ function ProductList({ products }: { products: Product[] }) {
             renderItem={renderProduct}
 
             // Performance
-            // ⚠️ removeClippedSubviews has documented content-missing bugs on Android
+            // ️ removeClippedSubviews has documented content-missing bugs on Android
             // (blank areas on scroll-back). Measure before enabling in production.
             // Higher-impact: getItemLayout (fixed-height items) and windowSize (default 21, try 5–10).
             removeClippedSubviews={true}
@@ -255,7 +255,7 @@ function MainTabs() {
 
 ---
 
-🎉 **You've completed the Web Dev Track!**
+ **You've completed the Web Dev Track!**
 
 You now have the foundations to build real React Native apps. Next steps:
 - Create your first Expo project: `npx create-expo-app@latest MyApp`

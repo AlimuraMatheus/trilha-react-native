@@ -4,6 +4,13 @@ title: History & Architecture of React Native
 
 # History & Architecture of React Native
 
+## Video Overview
+
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/intro_01_history_and_architecture.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## The Story in Five Acts
 
 ### Act 1 — The Problem (2012)
@@ -33,20 +40,20 @@ After years of incremental work, the **New Architecture** shipped as the default
 ### Old Architecture (the Bridge)
 
 ```
-┌─────────────────────────────────────────────────┐
-│  JavaScript Thread                               │
-│  (your app code, React, business logic)          │
-└───────────────────┬─────────────────────────────┘
-                    │
-         ┌──────────▼──────────┐
-         │  The Bridge          │  ← JSON serialization
-         │  (async, batched)    │    every message
-         └──────────┬──────────┘
-                    │
-┌───────────────────▼─────────────────────────────┐
-│  Native Thread                                   │
-│  (UIKit on iOS, Android Views)                   │
-└─────────────────────────────────────────────────┘
+
+  JavaScript Thread                               
+  (your app code, React, business logic)          
+
+                    
+         ▼
+           The Bridge            ← JSON serialization
+           (async, batched)        every message
+         
+                    
+▼
+  Native Thread                                   
+  (UIKit on iOS, Android Views)                   
+
 ```
 
 Every interaction — drawing a pixel, responding to a gesture, measuring text — had to cross this bridge as a serialized JSON message. It was like sending a letter every time you wanted to talk to your neighbour.
@@ -54,21 +61,21 @@ Every interaction — drawing a pixel, responding to a gesture, measuring text �
 ### New Architecture (JSI + Fabric + TurboModules)
 
 ```
-┌─────────────────────────────────────────────────┐
-│  JavaScript Engine (Hermes)                      │
-│  ↕ JSI: direct C++ object references            │
-│  (zero serialization, can be synchronous)        │
-└─────────────────────────────────────────────────┘
+
+  JavaScript Engine (Hermes)                      
+  ↕ JSI: direct C++ object references            
+  (zero serialization, can be synchronous)        
+
          ↕ shared C++ layer
-┌──────────────────┐  ┌─────────────────────────┐
-│  Fabric Renderer │  │  TurboModules            │
-│  (new UI engine) │  │  (lazy native modules)   │
-└──────────────────┘  └─────────────────────────┘
+  
+  Fabric Renderer     TurboModules            
+  (new UI engine)     (lazy native modules)   
+  
          ↕                       ↕
-┌─────────────────────────────────────────────────┐
-│  Platform Layer                                  │
-│  UIKit / SwiftUI (iOS) | Android Views / Compose │
-└─────────────────────────────────────────────────┘
+
+  Platform Layer                                  
+  UIKit / SwiftUI (iOS) | Android Views / Compose 
+
 ```
 
 #### The Three Pillars
@@ -190,17 +197,6 @@ Notice:
 - Styles are JavaScript objects, not CSS files
 - `flex: 1` means "fill all available space" — same flexbox model as web CSS
 - The same file produces a native `UILabel` on iOS and a native `TextView` on Android
-
----
-
-## Video Overview
-
-<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/intro_01_history_and_architecture.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
----
 
 ## Resources
 

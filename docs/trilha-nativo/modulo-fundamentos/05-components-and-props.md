@@ -23,7 +23,7 @@ function UserName({ name, isVerified }: { name: string; isVerified: boolean }) {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
             <Text style={{ fontWeight: 'bold' }}>{name}</Text>
-            {isVerified && <Text>✓</Text>}
+            {isVerified && <Text></Text>}
         </View>
     );
 }
@@ -166,7 +166,7 @@ function UserScreen({ userId }: { userId: string }) {
 }
 
 // Pattern 2: Ternary (for inline two-branch)
-<Text>{isOnline ? '🟢 Online' : '🔴 Offline'}</Text>
+<Text>{isOnline ? ' Online' : ' Offline'}</Text>
 
 // Pattern 3: && (for optional content)
 {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}

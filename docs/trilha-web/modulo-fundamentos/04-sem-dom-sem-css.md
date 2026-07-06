@@ -11,7 +11,7 @@ title: No DOM, No CSS — What That Actually Means
 These browser globals simply don't exist in React Native:
 
 ```typescript
-// ❌ None of this exists in React Native
+//  None of this exists in React Native
 document.getElementById('app');
 document.querySelector('.button');
 document.createElement('div');
@@ -24,7 +24,7 @@ navigator.clipboard;      // ← not available — use expo-clipboard
 ```
 
 ```typescript
-// ✅ React Native equivalents
+//  React Native equivalents
 // Get element ref → useRef()
 // Scroll → ref.current.scrollTo()
 // Screen dimensions → Dimensions.get('window') or useWindowDimensions()
@@ -41,12 +41,12 @@ navigator.clipboard;      // ← not available — use expo-clipboard
 You cannot modify the native view tree imperatively the way you can with the DOM.
 
 ```typescript
-// ❌ Web — direct DOM manipulation
+//  Web — direct DOM manipulation
 document.getElementById('title').innerHTML = '<strong>New Title</strong>';
 element.classList.add('active');
 element.style.backgroundColor = 'red';
 
-// ✅ React Native — ALL changes go through state → re-render
+//  React Native — ALL changes go through state → re-render
 const [title, setTitle] = useState('Old Title');
 const [isActive, setIsActive] = useState(false);
 
@@ -62,7 +62,7 @@ This is actually the same constraint that React itself imposes on web. If you've
 ## No CSS Selectors, No Cascade
 
 ```css
-/* ❌ None of this works in React Native */
+/*  None of this works in React Native */
 .card > .title { font-size: 18px; }
 .card:hover { background-color: #f5f5f5; }
 .button:focus { outline: 2px solid blue; }
@@ -72,7 +72,7 @@ This is actually the same constraint that React itself imposes on web. If you've
 ```
 
 ```typescript
-// ✅ React Native — no selectors, no cascade, no hover, no media queries
+//  React Native — no selectors, no cascade, no hover, no media queries
 // You express all of this in JS
 
 // Parent-child relationship → props drilling or composition

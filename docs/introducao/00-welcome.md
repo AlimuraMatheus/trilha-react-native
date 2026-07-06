@@ -1,8 +1,17 @@
 ---
+id: intro
+slug: /
 title: Welcome to React Native Trail
 ---
 
-# Welcome to React Native Trail 🚀
+# Welcome to React Native Trail 
+
+## Video Overview
+
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/intro_00_welcome.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 **React Native Trail** is a structured course for developers who already know how to build software — either on **mobile (Android/iOS)** or on the **web (React)** — and want to master React Native with the New Architecture.
 
@@ -12,8 +21,8 @@ This course is split into two parallel learning paths:
 
 | Track | For | Starting Point |
 |-------|-----|----------------|
-| 📱 **Native Dev Track** | Android (Kotlin) or iOS (Swift) developers | JS/TS → React → React Native |
-| 🌐 **Web Dev Track** | React / JavaScript web developers | Mobile mindset → RN differences → Native components |
+|  **Native Dev Track** | Android (Kotlin) or iOS (Swift) developers | JS/TS → React → React Native |
+|  **Web Dev Track** | React / JavaScript web developers | Mobile mindset → RN differences → Native components |
 
 Both tracks converge on the same React Native skill set — they just approach it from your existing strengths.
 
@@ -48,25 +57,14 @@ By the end of this course you will:
 
 Each module contains:
 
-- 📖 **Concept explanation** with platform comparisons (Web / Android / iOS / React Native)
-- 💻 **Code examples** you can run in [Expo Snack](https://snack.expo.dev) right in your browser
-- 🎯 **Exercises** to practice what you learned
-- 🔗 **Curated resources** — official docs, videos, and interactive tools
+-  **Concept explanation** with platform comparisons (Web / Android / iOS / React Native)
+-  **Code examples** you can run in [Expo Snack](https://snack.expo.dev) right in your browser
+-  **Exercises** to practice what you learned
+-  **Curated resources** — official docs, videos, and interactive tools
 
 :::tip Run code in your browser
 Every code example in this course can be run immediately in **[Expo Snack](https://snack.expo.dev)** — no setup required. Just paste the code and hit Run.
 :::
-
----
-
-## Video Overview
-
-<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/intro_00_welcome.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
----
 
 ## Next Step
 

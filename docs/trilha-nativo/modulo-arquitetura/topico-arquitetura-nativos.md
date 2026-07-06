@@ -29,32 +29,32 @@ Ao final, o dev deve conseguir:
 
 ```txt
 src/
-├── app/
-│   ├── navigation/
-│   │   ├── RootNavigator.tsx
-│   │   ├── AppDrawer.tsx
-│   │   └── AppTabs.tsx
-│   ├── store/
-│   │   └── authStore.ts
-│   └── config/
-│       └── env.ts
-├── features/
-│   ├── auth/
-│   │   ├── screens/
-│   │   │   ├── LoginScreen.tsx
-│   │   │   └── RegisterScreen.tsx
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   └── api/
-│   ├── feed/
-│   └── profile/
-├── shared/
-│   ├── components/
-│   ├── hooks/
-│   └── styles/
-└── native/
-    ├── modules/
-    └── ui/
+ app/
+    navigation/
+       RootNavigator.tsx
+       AppDrawer.tsx
+       AppTabs.tsx
+    store/
+       authStore.ts
+    config/
+        env.ts
+ features/
+    auth/
+       screens/
+          LoginScreen.tsx
+          RegisterScreen.tsx
+       components/
+       hooks/
+       api/
+    feed/
+    profile/
+ shared/
+    components/
+    hooks/
+    styles/
+ native/
+     modules/
+     ui/
 ```
 
 - `app/`: infraestrutura (navegação, stores globais, config).
@@ -175,6 +175,6 @@ Tópicos:
 You can watch a demonstration of the architecture in action here:
 
 <video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/test_1.mp4" type="video/mp4">
+  <source src="/trilha-react-native/assets/videos/test_1.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>

@@ -250,7 +250,7 @@ Since React Native 0.71, you can use `gap`, `rowGap`, and `columnGap` instead of
 
 The best way to internalize Flexbox is through play. Since RN uses the same flexbox model as CSS:
 
-🐸 **[Play Flexbox Froggy](https://flexboxfroggy.com/)** — 24 levels that teach every flexbox property through an interactive game.
+ **[Play Flexbox Froggy](https://flexboxfroggy.com/)** — 24 levels that teach every flexbox property through an interactive game.
 
 ---
 

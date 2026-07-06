@@ -137,7 +137,7 @@ async function saveSession(session: UserSession): Promise<void> {
 async function loadSession(): Promise<UserSession | null> {
     const raw = await AsyncStorage.getItem('session');
     if (!raw) return null;
-    // ⚠️ `as` is not runtime validation — a stale or schema-changed value passes
+    // ️ `as` is not runtime validation — a stale or schema-changed value passes
     // TypeScript but can silently corrupt app state. In production, validate with
     // Zod: `const result = UserSessionSchema.safeParse(JSON.parse(raw))`
     return JSON.parse(raw) as UserSession;

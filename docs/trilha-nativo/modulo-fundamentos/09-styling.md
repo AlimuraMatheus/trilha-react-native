@@ -307,7 +307,7 @@ function MyScreen() {
 
 ---
 
-🎉 **You've completed the Native Dev Track — Modules 1, 2, and 3!**
+ **You've completed the Native Dev Track — Modules 1, 2, and 3!**
 
 You now have the foundations to build real React Native apps. Next steps:
 - Set up your first project: `npx @react-native-community/cli init MyApp`

@@ -49,12 +49,12 @@ title: Native Components for Web Developers
 The biggest change: you cannot render text outside of a `<Text>` component.
 
 ```tsx
-// ❌ Text outside Text — CRASH
+//  Text outside Text — CRASH
 <View>
     Hello World
 </View>
 
-// ✅
+// 
 <View>
     <Text>Hello World</Text>
 </View>

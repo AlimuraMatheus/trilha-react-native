@@ -18,34 +18,34 @@ Ao final, o dev deve conseguir:
 
 ```txt
 src/
-├── app/
-│   ├── navigation/
-│   │   ├── RootNavigator.tsx
-│   │   └── AppTabs.tsx
-│   ├── store/
-│   │   └── authStore.ts
-│   └── config/
-│       └── env.ts
-├── features/
-│   ├── auth/
-│   │   ├── screens/
-│   │   │   ├── LoginScreen.tsx
-│   │   │   └── RegisterScreen.tsx
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   └── api/
-│   ├── feed/
-│   │   ├── screens/
-│   │   ├── components/
-│   │   └── api/
-│   └── profile/
-├── shared/
-│   ├── components/
-│   ├── hooks/
-│   └── styles/
-└── native/
-    ├── modules/
-    └── ui/
+ app/
+    navigation/
+       RootNavigator.tsx
+       AppTabs.tsx
+    store/
+       authStore.ts
+    config/
+        env.ts
+ features/
+    auth/
+       screens/
+          LoginScreen.tsx
+          RegisterScreen.tsx
+       components/
+       hooks/
+       api/
+    feed/
+       screens/
+       components/
+       api/
+    profile/
+ shared/
+    components/
+    hooks/
+    styles/
+ native/
+     modules/
+     ui/
 ```
 
 ---

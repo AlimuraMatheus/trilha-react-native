@@ -4,7 +4,14 @@ title: Choose Your Track
 
 # Choose Your Track
 
-## 📱 Native Dev Track — For Android/iOS Developers
+## Video Overview
+
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/intro_03_choose_your_track.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+##  Native Dev Track — For Android/iOS Developers
 
 **Best for you if:**
 - You write Kotlin, Java, Swift, or Objective-C
@@ -21,11 +28,11 @@ title: Choose Your Track
 **Your advantage:**
 You already understand _why_ native rendering matters, what thread safety means, and how platform APIs work. You'll appreciate the New Architecture more deeply than most.
 
-→ **[Start Native Dev Track: JS/TS for Native Devs](../native-track/js-ts-for-native-devs)**
+→ **[Start Native Dev Track: JS/TS for Native Devs](../trilha-nativo/modulo-fundamentos/js-ts-overview)**
 
 ---
 
-## 🌐 Web Dev Track — For React Developers
+##  Web Dev Track — For React Developers
 
 **Best for you if:**
 - You build with React (hooks, JSX, components)
@@ -42,13 +49,8 @@ You already understand _why_ native rendering matters, what thread safety means,
 **Your advantage:**
 React Native components work exactly like React components. Your hook knowledge, component patterns, and JS ecosystem experience transfer directly.
 
-→ **[Start Web Dev Track: Adapting JS for Mobile](../web-track/adapting-js-for-mobile)**
+→ **[Start Web Dev Track: Adapting JS for Mobile](../trilha-web/modulo-fundamentos/adaptando-js-ts)**
 
 ---
 
-## Video Overview
 
-<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/intro_03_choose_your_track.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>

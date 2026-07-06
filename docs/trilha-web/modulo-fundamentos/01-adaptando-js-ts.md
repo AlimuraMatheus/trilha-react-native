@@ -29,7 +29,7 @@ When you write React Native, your JS runs in **Hermes** (a mobile JS engine) wit
 Most of your JavaScript knowledge transfers directly:
 
 ```typescript
-// ✅ All of this works the same in React Native
+//  All of this works the same in React Native
 
 // Core JS
 const arr = [1, 2, 3].map(n => n * 2);
@@ -179,7 +179,7 @@ function SwipeCard() {
         })
         .onEnd(() => {
             translateX.value = withSpring(0);
-            // ⚠️ Gesture callbacks run on the UI thread.
+            // ️ Gesture callbacks run on the UI thread.
             // To call React state setters, navigation, or any JS function,
             // you must wrap it with runOnJS — otherwise you get a hard crash:
             // "Calling into JavaScript from native is only allowed via JSI bridge"

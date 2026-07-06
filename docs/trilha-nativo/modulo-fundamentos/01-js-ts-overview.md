@@ -4,6 +4,13 @@ title: "Module 1: JS/TS for Native Developers"
 
 # Module 1: JS/TS for Native Developers
 
+## Video Overview
+
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/trilha_nativo_fundamentos-01_js_ts_overview.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 > You already know how to write software. This module maps JavaScript and TypeScript onto your existing mental model — from a Kotlin or Swift perspective.
 
 ## What This Module Covers
@@ -76,13 +83,6 @@ function greet(name: string): string {
 // or as an arrow function:
 const greet = (name: string): string => `Hello, ${name}!`;
 ```
-
-## Video Overview
-
-<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/trilha_nativo_fundamentos-01_js_ts_overview.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 ---
 

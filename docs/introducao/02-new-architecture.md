@@ -4,6 +4,13 @@ title: New Architecture Deep Dive
 
 # New Architecture Deep Dive
 
+## Video Overview
+
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/intro_02-new-arch.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 > React Native 0.76+ — New Architecture is **on by default**. This is what runs your app.
 
 ## JSI — JavaScript Interface
@@ -129,16 +136,5 @@ Hermes compiles your JS to bytecode **at build time**, so the app starts faster 
 | Hermes engine | Official | [hermesengine.dev](https://hermesengine.dev) |
 | Codegen docs | Official | [reactnative.dev/docs/the-new-architecture/pillars-codegen](https://reactnative.dev/docs/the-new-architecture/pillars-codegen) |
 | BolderApps — JSI & Fabric deep dive (2026) | Tutorial | [bolderapps.com blog](https://www.bolderapps.com/blog-posts/react-natives-2026-new-architecture-how-jsi-and-fabric-finally-killed-the-performance-bridge) |
-
----
-
-## Video Overview
-
-<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/intro_02-new-arch.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
----
 
 Next → **[Choose Your Track](./choose-your-track)**

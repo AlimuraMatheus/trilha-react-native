@@ -143,11 +143,11 @@ You cannot use raw CSS files, CSS Modules, or the web version of `styled-compone
 The official approach is still `StyleSheet.create`. All three options exist in production apps. In this course:
 
 ```tsx
-// ❌ Does not work in React Native
+//  Does not work in React Native
 <View className="flex-1 bg-white p-4" />        // No Tailwind
 <View style="background-color: white; padding: 16px" /> // No CSS strings
 
-// ✅ Works in React Native
+//  Works in React Native
 <View style={{ flex: 1, backgroundColor: 'white', padding: 16 }} />
 <View style={styles.container} />
 
