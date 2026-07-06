@@ -68,7 +68,7 @@ const sidebars = {
       label: 'Recursos Nativos',
       collapsed: false,
       items: [
-        'trilha-web/modulo-recursos-nativos/recursos-nativos',
+        'trilha-web/modulo-recursos-nativos/utilizando-recursos-nativos',
         'trilha-web/modulo-recursos-nativos/topico-integracao-nativa-web',
       ],
     },
