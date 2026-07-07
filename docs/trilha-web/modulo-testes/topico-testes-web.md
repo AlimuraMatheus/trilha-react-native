@@ -2,41 +2,41 @@
 title: Testing
 ---
 
-# Topic — Testing (Web Track)
+# Testing
 
-### Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-
-- Configure Jest in an RN project
-- Write RN component tests with `@testing-library/react-native`
-- Write hook and logic tests with Jest
-- Understand the role of Detox for E2E (even if you don't implement everything in this topic)
-
----
-
-### Video Demonstration
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Web_to_RN_Testing_-_web.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Web_to_RN_Testing_-_web.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
----
+## Familiar Tools, Small Differences
 
-### Tools
-
-- **Jest** — test runner and assertions.
-- **@testing-library/react-native** — same philosophy as Testing Library web: test behavior, not implementation.
-- **Detox** — automated E2E tests on devices/emulators (conceptual introduction).
+If you've written tests with Jest and Testing Library on a React web project, testing in React Native will feel immediately familiar. The philosophy is identical — test what the user sees and does, not internal implementation details. The API surface is nearly the same. The differences are small and mechanical.
 
 ---
 
-### Testing an RN Component (parallel with web)
+## Mapping: Web → React Native
+
+| Web | React Native | Note |
+|---|---|---|
+| `@testing-library/react` | `@testing-library/react-native` | Same query API, same `render`/`fireEvent` pattern |
+| `data-testid` | `testID` prop | RN's built-in test identifier — no custom attribute needed |
+| `fireEvent.change(input, { target: { value } })` | `fireEvent.changeText(input, value)` | Simplified — no synthetic event object |
+| `userEvent.click` | `fireEvent.press` | Touch instead of click |
+| Cypress / Playwright | Detox | E2E on real devices/emulators |
+
+---
+
+## Testing a Component
+
+The structure is identical to web: render, interact, assert.
 
 Component:
 
 ```tsx
+// src/features/auth/screens/LoginScreen.tsx
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 
@@ -69,6 +69,7 @@ export function LoginScreen() {
 Test:
 
 ```tsx
+// src/features/auth/screens/LoginScreen.test.tsx
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { LoginScreen } from './LoginScreen';
@@ -76,40 +77,95 @@ import { LoginScreen } from './LoginScreen';
 it('shows error when email is invalid', () => {
   const { getByTestId, getByText } = render(<LoginScreen />);
 
-  const input = getByTestId('input-email');
-  fireEvent.changeText(input, 'invalid-email');
+  fireEvent.changeText(getByTestId('input-email'), 'invalid-email');
   fireEvent.press(getByText('Login'));
 
   expect(getByTestId('error-text').props.children).toBe('Invalid email');
 });
 ```
 
-Main differences compared to web:
-
-- `TextInput` instead of `<input />`, and method `changeText` instead of `change`.
-- `testID` is the recommended way to identify elements in RN (there is no `data-testid` by default).
+The two differences from a web test: `fireEvent.changeText` instead of `fireEvent.change`, and `testID` instead of `data-testid`. Everything else — `render`, `getByTestId`, `getByText`, `expect` — is the same.
 
 ---
 
-### Practical Exercise
+## Testing Logic (hooks, utils)
 
-1. Choose an RN component with simple logic:
-   - Ex.: a form with 2 fields and basic validation.
-2. Write tests that cover:
-   - Initial state (no error).
-   - Errors when fields are invalid.
-   - Success when fields are valid.
-3. Compare with your React web tests and list:
-   - What is the same.
-   - What changes (component types, events, environment).
+Pure logic tests are completely identical to web — no RN-specific API involved.
+
+```ts
+// src/features/auth/utils/validateEmail.ts
+export function validateEmail(email: string): boolean {
+  return email.includes('@');
+}
+```
+
+```ts
+// src/features/auth/utils/validateEmail.test.ts
+import { validateEmail } from './validateEmail';
+
+describe('validateEmail', () => {
+  it('returns false for strings without @', () => {
+    expect(validateEmail('not-an-email')).toBe(false);
+  });
+
+  it('returns true for a valid email', () => {
+    expect(validateEmail('user@example.com')).toBe(true);
+  });
+});
+```
+
+Push as much behaviour as possible into pure functions. The more logic lives outside components, the less you need to render anything to test it.
 
 ---
 
-### Study Materials
+## E2E with Detox
 
-- [@testing-library/react-native Docs](https://testing-library.com/docs/react-native-testing-library/intro/)
-- Guide: *Testing React Native for React Web Developers*
-- Video: *Jest & Testing Library in React Native*
+Detox is the RN equivalent of Cypress or Playwright — it launches the real app on a device or emulator and drives it through complete flows. The setup is heavier than web E2E (you need a compiled native binary), but the test code is straightforward:
+
+```js
+// e2e/login.test.js
+describe('Login flow', () => {
+  beforeAll(async () => {
+    await device.launchApp();
+  });
+
+  it('shows an error for an invalid email', async () => {
+    await element(by.id('input-email')).typeText('not-an-email');
+    await element(by.text('Login')).tap();
+    await expect(element(by.id('error-text'))).toBeVisible();
+  });
+});
+```
+
+Use Detox selectively — critical happy paths and flows that cross the JS/native boundary. Full-coverage E2E suites are expensive to maintain on mobile; Jest covers the bulk of your cases faster and more reliably.
+
+---
+
+## Running Tests
+
+```bash
+# All unit and component tests
+npm test
+
+# Watch mode
+npm test -- --watch
+
+# Coverage
+npm test -- --coverage
+```
+
+The default RN template ships with a working Jest config. You rarely need to change it.
+
+---
+
+## Resources
+
+| Resource | Type | Link |
+|---|---|---|
+| @testing-library/react-native | Official Docs | [callstack.github.io/react-native-testing-library](https://callstack.github.io/react-native-testing-library) |
+| Jest | Official Docs | [jestjs.io](https://jestjs.io) |
+| Detox | Official Docs | [wix.github.io/Detox](https://wix.github.io/Detox) |
+| Testing Overview | Official Docs | [reactnative.dev/docs/testing-overview](https://reactnative.dev/docs/testing-overview) |
 
 ---
 

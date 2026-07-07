@@ -2,51 +2,39 @@
 title: Testing
 ---
 
-# Topic — Testing (Track 1: Native Devs)
+# Testing
 
-## Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-- Configure Jest in a RN project
-- Write unit tests for logic (hooks, helpers, services)
-- Write component tests with `@testing-library/react-native`
-- Understand the role of E2E tests with Detox and how they compare to Espresso/XCUITest
-- Integrate the test suite into the CI pipeline
-
----
-
-### Video Demonstration
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Native_to_RN_Testing_-_nativo.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Native_to_RN_Testing_-_nativo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+## The Same Pyramid, a Different Stack
+
+If you're coming from Android or iOS, the testing pyramid is already part of your workflow: unit tests at the base, UI tests in the middle, E2E tests at the top. React Native maps cleanly onto that pyramid — only the tools change.
+
+**Jest** is your JUnit/XCTest: fast, runs in Node, no device needed. **@testing-library/react-native** gives you component-level tests focused on behavior rather than implementation. **Detox** occupies the top tier — it drives a real device or emulator the same way Espresso and XCUITest do.
 
 ---
 
 ## Mapping: Android/iOS → React Native
 
-| Native                      | React Native                            | Note |
-|-----------------------------|------------------------------------------|------------|
-| JUnit / XCTest              | Jest                                     | Unit tests, mocks |
-| Espresso / XCUITest         | Detox                                    | Mobile UI E2E |
-| ViewModel / Presenter tests | Hook / store tests            | UI logic and state |
-| Fragment/ViewController tests | RN screen/container tests | Visual behavior + flow |
+| Native | React Native | Note |
+|---|---|---|
+| JUnit / XCTest | Jest | Unit tests, mocks, snapshots |
+| Espresso / XCUITest | Detox | Mobile UI E2E on real device/emulator |
+| ViewModel / Presenter tests | Hook and store tests | UI logic and state in isolation |
+| Fragment / ViewController tests | Screen and container tests | Visual behavior and navigation flow |
 
 ---
 
-## Main Tools
+## Testing Components
 
-- **Jest**: test runner, mocks, snapshots.
-- **@testing-library/react-native**: RN component tests, focused on behavior (not implementation).
-- **Detox**: E2E tests (not detailed in code here, but presented conceptually).
+`@testing-library/react-native` follows the same philosophy as Testing Library on web: test what the user sees and does, not internal implementation details. You query by `testID`, by visible text, or by accessibility label — not by component class or instance variable.
 
----
-
-## Testing Components with `@testing-library/react-native`
-
-Example of a login screen with simple validation:
-
+A login screen with basic validation:
 
 ```tsx
 // src/features/auth/screens/LoginScreen.tsx
@@ -62,7 +50,7 @@ export function LoginScreen() {
       setError('Invalid email');
       return;
     }
-    // call API or navigate...
+    // navigate or call API...
   };
 
   return (
@@ -79,9 +67,7 @@ export function LoginScreen() {
 }
 ```
 
-
-Screen test:
-
+Its test:
 
 ```tsx
 // src/features/auth/screens/LoginScreen.test.tsx
@@ -92,22 +78,23 @@ import { LoginScreen } from './LoginScreen';
 test('shows error message for invalid email', () => {
   const { getByTestId, getByText } = render(<LoginScreen />);
 
-  const input = getByTestId('input-email');
-  fireEvent.changeText(input, 'no-at-sign');
+  fireEvent.changeText(getByTestId('input-email'), 'no-at-sign');
   fireEvent.press(getByText('Login'));
 
   expect(getByTestId('error-text').props.children).toBe('Invalid email');
 });
 ```
 
+`testID` is the RN equivalent of an accessibility identifier in XCTest or a `contentDescription` in Espresso — it's purely a test hook and has no effect on production behaviour.
 
 ---
 
 ## Testing Logic (hooks, helpers)
 
+Pure logic — password validators, formatters, calculation helpers — is the easiest layer to test. No rendering, no device, just functions.
 
-```tsx
-// src/features/auth/hooks/usePasswordStrength.ts
+```ts
+// src/features/auth/utils/passwordStrength.ts
 export function getPasswordStrength(password: string): 'weak' | 'medium' | 'strong' {
   if (password.length < 6) return 'weak';
   if (!/[0-9]/.test(password)) return 'medium';
@@ -115,11 +102,9 @@ export function getPasswordStrength(password: string): 'weak' | 'medium' | 'stro
 }
 ```
 
-
-
-```tsx
-// src/features/auth/hooks/usePasswordStrength.test.ts
-import { getPasswordStrength } from './usePasswordStrength';
+```ts
+// src/features/auth/utils/passwordStrength.test.ts
+import { getPasswordStrength } from './passwordStrength';
 
 describe('getPasswordStrength', () => {
   it('returns weak for short passwords', () => {
@@ -136,43 +121,60 @@ describe('getPasswordStrength', () => {
 });
 ```
 
+Keep this layer thick. The more behaviour you can push into pure functions, the less you need to render components or spin up emulators.
 
 ---
 
-## The Role of E2E Tests (Detox)
+## E2E Tests with Detox
 
-Detox occupies the same conceptual space as Espresso/XCUITest:
-- Runs the app on a real device/emulator.
-- Interacts with UI elements by IDs/text.
-- Validates complete flows (login, navigation, etc.).
+Detox occupies the same conceptual space as Espresso and XCUITest: it launches the real app on a device or emulator and drives it through complete user flows. It is slower and more brittle than unit tests — but it's the only layer that catches integration failures, deep link routing bugs, and platform-specific rendering issues that Jest simply cannot see.
 
-Recommendation for this topic:
-- Introduce the concept.
-- Show command examples (installation, run).
-- Detail implementation in a dedicated E2E testing topic (outside the immediate scope).
+The setup is heavier (you'll configure a Detox binary for each platform and wire it into CI), but the test code reads much like an Espresso test:
+
+```js
+// e2e/login.test.js
+describe('Login flow', () => {
+  beforeAll(async () => {
+    await device.launchApp();
+  });
+
+  it('shows an error for an invalid email', async () => {
+    await element(by.id('input-email')).typeText('not-an-email');
+    await element(by.text('Login')).tap();
+    await expect(element(by.id('error-text'))).toBeVisible();
+  });
+});
+```
+
+A practical split for most apps: Jest for all unit and component tests (fast feedback, runs in CI in seconds), Detox for the critical happy paths only (login, checkout, core navigation). Full-coverage E2E suites are expensive to maintain — treat them like integration tests in Android, not like unit tests.
 
 ---
 
-## Practical Exercise
+## Running Tests
 
-1. Choose a screen with simple validation (e.g.: login or registration form).
-2. Write tests covering:
-   - Initial rendering.
-   - Field validation (error vs success).
-   - Submit callback invocation (use `jest.fn()` to mock).
-3. Run the test suite with `npm test` or `yarn test`.
-4. Integrate test execution into the CI pipeline (see CI/CD topic).
+```bash
+# Unit and component tests
+npm test
+
+# Watch mode during development
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+Jest configuration lives in `jest.config.js` or the `"jest"` key in `package.json`. The default RN template already ships a working config — you rarely need to touch it.
 
 ---
 
-## Study Materials
+## Resources
 
-### Official Documentation
-- [Testing Overview](https://reactnative.dev/docs/testing-overview)
-
-### Articles
-- *Testing React Native Components with Testing Library*.
-- *From JUnit/XCTest to Jest: Mapping Mobile Test Practices to React Native*.
+| Resource | Type | Link |
+|---|---|---|
+| Testing Overview | Official Docs | [reactnative.dev/docs/testing-overview](https://reactnative.dev/docs/testing-overview) |
+| @testing-library/react-native | Official Docs | [callstack.github.io/react-native-testing-library](https://callstack.github.io/react-native-testing-library) |
+| Detox | Official Docs | [wix.github.io/Detox](https://wix.github.io/Detox) |
+| Jest | Official Docs | [jestjs.io](https://jestjs.io) |
 
 ---
 

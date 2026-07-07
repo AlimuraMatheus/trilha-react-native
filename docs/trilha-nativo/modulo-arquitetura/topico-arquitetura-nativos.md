@@ -2,87 +2,78 @@
 title: Architecture
 ---
 
-# Topic — Architecture (Track 1: Native Devs)
+# Architecture
 
-## Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-- Define a base architecture for medium/large RN apps
-- Organize folders by feature and by layer
-- Clearly separate:
-  - Navigation
-  - Global state
-  - API services
-  - Native modules
-- Map concepts like MVVM/Clean to RN (View, ViewModel, Use Cases, Repositories)
-
-
----
-
-### Video Demonstration
-
-You can watch a demonstration of the architecture in action here:
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Architecting_React_Native_for_Scale.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Architecting_React_Native_for_Scale.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+## Patterns You Already Know
+
+MVVM and Clean Architecture translate directly to React Native. The vocabulary changes — `Activity` becomes a screen component, `ViewModel` becomes a hook backed by a store — but the separation of concerns is identical. If you've enforced a layered architecture in an Android or iOS codebase, the instincts carry over.
+
+The main difference is that RN apps tend to organize by **feature** rather than by **layer**. Instead of a top-level `viewmodels/` folder sitting next to `repositories/`, each feature owns its own screens, hooks, and API modules. Shared infrastructure — navigation, global stores, config — lives in an `app/` layer that sits above the features.
 
 ---
 
 ## Mapping: MVVM/Clean → React Native
 
-| Native Concept        | React Native                              | Note |
-|-----------------------|-------------------------------------------|------|
-| View (Activity/VC)    | RN Screen Components                      | UI layer |
-| ViewModel             | Hooks + stores (Zustand/Redux)            | Presentation logic, state |
-| Use Case / Interactor | Functions in domain/services layer        | Orchestrate business rules |
-| Repository            | Adapters for remote APIs / local storage  | Data implementation |
+| Native concept | React Native | Note |
+|---|---|---|
+| View (Activity / ViewController) | Screen components | UI layer — renders, no logic |
+| ViewModel | Hooks + stores (Zustand / Redux) | Presentation logic and state |
+| Use Case / Interactor | Functions in a domain or services layer | Orchestrate business rules |
+| Repository | API adapters / local storage adapters | Data access implementation |
 
 ---
 
-## Suggested project structure
+## Suggested Project Structure
 
-```txt
+```
 src/
- app/
+  app/
     navigation/
-       RootNavigator.tsx
-       AppDrawer.tsx
-       AppTabs.tsx
+      RootNavigator.tsx
+      AppDrawer.tsx
+      AppTabs.tsx
     store/
-       authStore.ts
+      authStore.ts
     config/
-        env.ts
- features/
+      env.ts
+  features/
     auth/
-       screens/
-          LoginScreen.tsx
-          RegisterScreen.tsx
-       components/
-       hooks/
-       api/
+      screens/
+        LoginScreen.tsx
+        RegisterScreen.tsx
+      components/
+      hooks/
+      api/
     feed/
     profile/
- shared/
+  shared/
     components/
     hooks/
     styles/
- native/
-     modules/
-     ui/
+  native/
+    modules/
+    ui/
 ```
 
-- `app/`: infrastructure (navigation, global stores, config).
-- `features/`: business modules (auth, feed, profile, etc.).
-- `shared/`: reusable components and hooks across features.
-- `native/`: native integration code (modules, UI components).
+- `app/` — infrastructure: navigation tree, global stores, environment config. Nothing here knows about individual features.
+- `features/` — one folder per product domain. Each is self-contained: its own screens, hooks, API calls, and local components.
+- `shared/` — genuinely reusable pieces that more than one feature needs. Keep the bar high; prefer duplication over premature abstraction.
+- `native/` — the bridge boundary: your native modules and native UI components. Isolating them here makes the JS↔native surface explicit and easy to audit.
 
 ---
 
-## Global state (example with Zustand)
+## Global State with Zustand
 
-```tsx
+Zustand is a minimal state library — a store is just a function that returns state and actions. It avoids the boilerplate of Redux while remaining predictable enough for large teams.
+
+```ts
 // src/app/store/authStore.ts
 import { create } from 'zustand';
 
@@ -101,7 +92,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 ```
 
-Usage in a screen:
+Consuming it in a screen:
 
 ```tsx
 // src/features/profile/screens/ProfileScreen.tsx
@@ -120,14 +111,15 @@ export function ProfileScreen() {
     </View>
   );
 }
-}
 ```
+
+The selector `(s) => s.isAuthenticated` is important — it means the component only re-renders when `isAuthenticated` changes, not on every store update. This is the Zustand equivalent of a ViewModel exposing a `StateFlow` with `distinctUntilChanged`.
 
 ---
 
-## Navigation as infrastructure
+## Navigation as Infrastructure
 
-Navigation (Stack/Tab/Drawer) should live in `app/navigation`, outside specific features, to avoid excessive coupling.
+Navigation belongs in `app/navigation`, not inside a feature. A feature that owns its own navigator quickly becomes impossible to reuse or reorganize — every entry point is buried inside a product module.
 
 ```tsx
 // src/app/navigation/RootNavigator.tsx
@@ -147,33 +139,24 @@ export function RootNavigator() {
     </NavigationContainer>
   );
 }
-}
 ```
 
----
-
-## Practical exercise
-
-1. Take the RN app created in previous topics (login + drawer + tabs).
-2. Reorganize the project to follow the proposed structure (`app/`, `features/`, `shared/`, `native/`).
-3. Create at least:
-   - A domain hook (e.g.: `useFeed()` in `features/feed/hooks`).
-   - An API module (`features/feed/api/feedApi.ts`).
-4. Document the architecture in an `ARCHITECTURE.md` file in the `src/` folder explaining how each layer relates to the others.
+Features navigate by calling `navigation.navigate('ScreenName')` — they know screen names but not how the navigator is assembled. This is the same boundary you'd draw between a `Fragment` and the `Activity` that hosts it.
 
 ---
 
-## Study Materials
+## Resources
 
-### Articles
-- *React Native Architecture for Scale* — guide to structuring large apps.
-- *Feature-based Folder Structure in React Native* — focus on modularization by feature.
-- *Clean Architecture in Mobile Apps — Mapping to React Native* — maps MVVM/Clean to RN.
+| Resource | Type | Link |
+|---|---|---|
+| React Navigation | Official Docs | [reactnavigation.org](https://reactnavigation.org) |
+| Zustand | Official Docs | [docs.pmnd.rs/zustand](https://docs.pmnd.rs/zustand/getting-started/introduction) |
+| React Native Directory | Community | [reactnative.directory](https://reactnative.directory) |
 
 ---
 
 ## Feedback
 
-You've reached the end of the Native Track. We'd love to hear what you thought. Fill out the form in your preferred language:
+You've reached the end of the Native Track. Fill out the form to share your thoughts:
 
 [Give Feedback](https://forms.gle/75pKeXQxkSZogzxv5)

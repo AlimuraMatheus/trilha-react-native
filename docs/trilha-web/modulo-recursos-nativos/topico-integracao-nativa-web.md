@@ -2,163 +2,144 @@
 title: Native Integration
 ---
 
-# Topic — Introduction to Native Integration (Web Track)
+# Native Integration
 
-### Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-
-- Explain at a high level what a **Native Module** and a **Native UI Component** are
-- Know in which cases you need to involve the native team (proprietary SDKs, system-specific APIs)
-- Consume an existing native module via `NativeModules`
-- Read and interpret errors coming from the native layer (stacktrace on Android/iOS)
-- Have the vocabulary to discuss integrations with Android/iOS developers
-
----
-
-### Video Demonstration
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Native_Web_Integration_-_web.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Native_Web_Integration_-_web.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
----
+## The Layer You Don't Write
 
-### Mapping: Web → React Native / Native
+As a web developer, you're used to the entire stack being JavaScript. npm install a library, import it, done. In React Native, some capabilities — platform sensors, proprietary SDKs, system APIs — live below the JavaScript layer, implemented in Kotlin or Swift by native developers.
 
-| Web Concept                   | React Native / Native               | Note                                                                       |
-|-------------------------------|-------------------------------------|----------------------------------------------------------------------------|
-| JS SDK (npm library)          | Native SDK + bridge                 | Implementation in Kotlin/Swift exposed as JS functions                    |
-| React Components              | Native UI Components                | Props/events API is React; implementation and rendering are native        |
-| DOM Events                    | Events via bridge                   | Events generated in the native layer and received in JS                   |
-| Web build (webpack, vite)     | Metro + Android/iOS build           | JS bundle + native binaries (APK/IPA)                                    |
-| Browser API (localStorage)    | Platform APIs (Android/iOS)         | RN accesses via native modules or libs that use native code internally    |
+Your job is not to write that native code. Your job is to consume it correctly from JS, communicate clearly with the native team about what you need, and recognize when a bug is yours versus theirs.
 
 ---
 
-### Core Concepts
+## Mapping: Web → React Native / Native
 
-#### Native Modules (consumption from the Web perspective)
+| Web concept | React Native / Native | Note |
+|---|---|---|
+| npm library (JS SDK) | Native SDK + bridge | Implementation in Kotlin/Swift, exposed as JS functions |
+| React component | Native UI Component | Props/events API is React; rendering is native |
+| DOM events | Events via bridge | Generated in native, received in JS |
+| `localStorage` / Web Storage | Platform APIs (Android/iOS) | Accessed via native modules or libs that wrap native code |
+| webpack / Vite build | Metro + Android/iOS build | JS bundle + native binary (APK/IPA) |
 
-A **Native Module** is seen in JS as an object in `NativeModules`:
+---
 
-```tsx
+## Consuming a Native Module
+
+A **Native Module** appears in JavaScript as an object on `NativeModules`. The native team writes the Kotlin/Swift implementation and tells you the module name and available methods. You write the JS wrapper.
+
+```ts
+// src/native/appEnv.ts
 import { NativeModules } from 'react-native';
 
 const { AppEnv } = NativeModules;
 
-// AppEnv was implemented in native code (Android/iOS).
-// Here you only consume its JS methods.
-```
-
-Methods are asynchronous in most cases (Promise-based):
-
-```tsx
 type Environment = 'dev' | 'staging' | 'prod';
 
-async function getEnvironment(): Promise<Environment> {
+export async function getEnvironment(): Promise<Environment> {
   if (!AppEnv) {
     throw new Error('AppEnv module not available');
   }
-
   return AppEnv.getEnvironment();
+}
+
+export async function getBuildNumber(): Promise<string> {
+  if (!AppEnv) {
+    throw new Error('AppEnv module not available');
+  }
+  return AppEnv.getBuildNumber();
 }
 ```
 
-You do not need to know Kotlin/Swift for this — you just need:
-- The module name (`AppEnv`).
-- Available methods (`getEnvironment`, `getBuildNumber`, etc.).
-- Expected return types (agreed upon with the native team).
+The null check on `AppEnv` matters — if the native module isn't registered (wrong build, wrong platform), `NativeModules.AppEnv` is `undefined`. Without the guard, you get an unhelpful `TypeError: undefined is not an object` instead of a clear message about the missing module.
+
+Consuming it in a hook:
+
+```ts
+// src/native/useAppEnv.ts
+import { useEffect, useState } from 'react';
+import { getEnvironment, getBuildNumber } from './appEnv';
+
+type AppEnvState = {
+  env: 'dev' | 'staging' | 'prod' | null;
+  buildNumber: string | null;
+  error: string | null;
+};
+
+export function useAppEnv(): AppEnvState {
+  const [state, setState] = useState<AppEnvState>({
+    env: null,
+    buildNumber: null,
+    error: null,
+  });
+
+  useEffect(() => {
+    Promise.all([getEnvironment(), getBuildNumber()])
+      .then(([env, buildNumber]) => setState({ env, buildNumber, error: null }))
+      .catch((e) => setState((s) => ({ ...s, error: e.message })));
+  }, []);
+
+  return state;
+}
+```
 
 ---
 
-#### Native UI Components (consumption from the Web perspective)
+## Consuming a Native UI Component
 
-A **Native UI Component** is a React component whose implementation is native.
+A **Native UI Component** is a React component whose rendering is handled entirely by native code. You use it in JSX like any other component — you just don't control what's inside.
 
 ```tsx
+// src/native/MyNativeChart.tsx
 import { requireNativeComponent } from 'react-native';
 
 type MyNativeChartProps = {
   data: number[];
   color?: string;
+  style?: object;
 };
 
-const MyNativeChart = requireNativeComponent<MyNativeChartProps>('MyNativeChart');
+export const MyNativeChart = requireNativeComponent<MyNativeChartProps>('MyNativeChart');
+```
 
-export function SalesChart() {
-  return <MyNativeChart data={[10, 20, 30]} color="#3366FF" />;
+```tsx
+// Usage in a screen
+import { MyNativeChart } from '../native/MyNativeChart';
+
+export function SalesScreen() {
+  return <MyNativeChart data={[10, 20, 30]} color="#3366FF" style={{ height: 200 }} />;
 }
 ```
 
-You use `<MyNativeChart />` like any other React component.  
-The difference is:
-
-- Who implements `MyNativeChart` is the native team (Android/iOS).
-- Layout/performance issues may come from the native implementation.
-- Available props and events are defined by the native team.
+The available props and events are defined by the native team. If the chart isn't rendering correctly or a prop isn't doing what you expect, the issue is almost certainly in the native implementation, not in your JSX.
 
 ---
 
-### Errors from Native (stacktrace)
+## Reading Native Errors
 
-In RN, stacktraces can come from the JS layer or the native layer:
+When something goes wrong in the native layer, the error surfaces in the RN red screen or in the device logs. Learning to tell a JS error from a native one saves you from debugging the wrong layer.
 
-- JS errors: generally point to `.js/.tsx` files in the stack.
-- Native errors: may appear with Android messages (`java.lang...`) or iOS (`-[UIView ...]` etc.)
+- **JS errors** — stack trace points to `.js` or `.tsx` files. These are yours.
+- **Android native errors** — stack trace contains `java.lang.*`, `com.facebook.react.*`, or your package name in Kotlin. Pass these to the Android developer with the full Logcat output.
+- **iOS native errors** — stack trace contains Objective-C selectors (`-[UIView ...]`) or Swift types. Pass these to the iOS developer with the full Xcode console output.
 
-Your role as a web developer:
-
-- Be able to identify when the error is **not** pure JS.
-- Have the minimum information to pass on to the native team:
-  - Screen/flow where it happened.
-  - Steps to reproduce.
-  - Full stacktrace (Android Logcat / Xcode console).
+Your job in a native error: identify which screen and flow triggered it, capture the full stack trace from Logcat or Xcode, and hand it off with clear reproduction steps.
 
 ---
 
-### Practical Exercise
+## Resources
 
-Build a small integration module (from the JS perspective), assuming the native team has already created `NativeModules.AppEnv` with:
-
-- `getEnvironment(): 'dev' | 'staging' | 'prod'`
-- `getBuildNumber(): string`
-
-1. Implement a JS service:
-
-   ```tsx
-   import { NativeModules } from 'react-native';
-
-   const { AppEnv } = NativeModules;
-
-   type Environment = 'dev' | 'staging' | 'prod';
-
-   export async function loadAppEnv() {
-     if (!AppEnv) {
-       throw new Error('AppEnv module not available');
-     }
-
-     const env: Environment = await AppEnv.getEnvironment();
-     const buildNumber: string = await AppEnv.getBuildNumber();
-
-     return { env, buildNumber };
-   }
-   ```
-
-2. Implement a `useAppEnv()` hook that:
-   - Loads this information on mount.
-   - Displays a different banner for `dev` vs `prod`.
-
-3. Handle the error case (missing module or call failure) by displaying a default message in dev.
-
----
-
-### Study Materials
-
-- [Native Modules Overview — React Native Docs](https://reactnative.dev/docs/native-modules-intro)
-- Article: *React Native for Web Developers — Understanding Native Integration*
-- Video: *Native Modules for React Developers (Conceptual Overview)*
+| Resource | Type | Link |
+|---|---|---|
+| Native Modules Overview | Official Docs | [reactnative.dev/docs/native-modules-intro](https://reactnative.dev/docs/native-modules-intro) |
+| Native UI Components | Official Docs | [reactnative.dev/docs/native-components-android](https://reactnative.dev/docs/native-components-android) |
 
 ---
 

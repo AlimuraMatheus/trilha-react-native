@@ -2,43 +2,49 @@
 title: Mobile Performance
 ---
 
-# Topic — Mobile Performance (Web Track)
+# Mobile Performance
 
-### Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-
-- Explain the RN thread model (JS vs UI vs native)
-- Use `FlatList` in a performant way for large lists
-- Reduce unnecessary re-renders with `React.memo`, `useCallback`, `useMemo`
-- Notice differences between web and mobile performance (hardware, touches, animations)
-- Use the perf monitor and Flipper to inspect FPS and resource usage
-
----
-
-### Video Demonstration
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Mobile_Performance_-_web.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Mobile_Performance_-_web.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
----
+## The Same Instincts, a Harder Target
 
-### Mental model for performance in RN
+Web performance and mobile performance share the same root causes: too much work on the main thread, unnecessary re-renders, rendering more than the user can see. The mental model you built for React web transfers directly.
 
-RN has no DOM, but it has problems equivalent to "excessive re-renders" that you already know:
-
-- **JS Thread**: similar to the "main thread" of a React web application — runs your logic, hooks, render.
-- **UI Thread**: handles native view rendering, touches, animations.
-- **Bridge**: communication between JS and native; excessive traffic can hurt performance.
+The difference is the hardware. A mid-range Android phone has a fraction of the CPU and memory of the MacBook you develop on. What's imperceptible in a browser can drop frames on a real device. The bar is lower, the margin for waste is smaller.
 
 ---
 
-### Large lists — `FlatList` as a "virtualized list"
+## The Thread Model
 
-Just as you don't render 10,000 items in the DOM at once, in RN you use `FlatList`:
+React Native runs three threads that matter for performance:
 
+- **JS Thread** — runs your TypeScript: React renders, hooks, effects, business logic. This is your main thread. If it stalls for 16ms, a frame drops.
+- **UI Thread** — handles native view rendering, touch events, and native animations. It should never be blocked by JS work.
+- **Native module threads** — used internally for I/O, networking, and background work in native modules.
+
+The key insight: animations that cross through the JS Thread on every frame will visibly stutter. Libraries like `react-native-reanimated` move animation worklets to the UI Thread entirely, making them immune to JS slowdowns.
+
+---
+
+## Mapping: Web → React Native
+
+| Web | React Native | Note |
+|---|---|---|
+| DOM virtualization (react-window, react-virtual) | `FlatList` / `SectionList` | Built-in virtualization |
+| `React.memo` / `useMemo` / `useCallback` | Same | Identical API, same purpose |
+| Avoiding layout thrash | `getItemLayout` | Pre-computing item positions avoids measurement |
+| Lighthouse / DevTools profiler | Perf Monitor + Flipper | Different tools, same questions |
+
+---
+
+## Large Lists with `FlatList`
+
+`FlatList` is React Native's built-in virtualized list — it only renders the items currently visible, plus a configurable buffer. The same principle as `react-window` on the web, but built into the framework.
 
 ```tsx
 import React, { useCallback } from 'react';
@@ -48,20 +54,18 @@ type Item = { id: string; title: string };
 
 const ITEM_HEIGHT = 60;
 
-function ItemRow({ item }: { item: Item }) {
+const ItemRow = React.memo(function ItemRow({ item }: { item: Item }) {
   return (
     <View style={{ height: ITEM_HEIGHT, justifyContent: 'center' }}>
       <Text>{item.title}</Text>
     </View>
   );
-}
-
-const MemoItemRow = React.memo(ItemRow);
+});
 
 export function BigList({ items }: { items: Item[] }) {
   const renderItem = useCallback(
-    ({ item }: { item: Item }) => <MemoItemRow item={item} />, 
-    []
+    ({ item }: { item: Item }) => <ItemRow item={item} />,
+    [],
   );
 
   return (
@@ -81,62 +85,47 @@ export function BigList({ items }: { items: Item[] }) {
 }
 ```
 
-
-Best practices (parallel with web):
-
-- `React.memo` on list items — equivalent to avoiding re-renders of table rows.
-- `useCallback` for `renderItem` — avoids creating a new function on each render.
-- `getItemLayout` — helps RN calculate positions without measuring (scroll performance gain).
+- `getItemLayout` is the biggest win for fixed-height rows — it tells RN the position of every item upfront, eliminating layout measurement during scrolling entirely.
+- `windowSize={5}` keeps five screens of items mounted at most. Items scrolled far away are unmounted.
+- `React.memo` on `ItemRow` prevents re-renders when unrelated state changes above the list. Wrap `renderItem` in `useCallback` for the same reason — a new function reference on every render defeats `memo`.
+- Never nest a `FlatList` inside a `ScrollView`. RN cannot calculate the inner list's height and will render all items at once, defeating virtualization.
 
 ---
 
-### Minimizing work on the JS thread
+## Minimizing Re-renders
 
-Just like in the browser:
-
-- Avoid heavy loops in scroll handlers or frequent event handlers.
-- Avoid building large objects on every render.
-- Use memoization (`useMemo`) when computation is expensive and dependencies rarely change.
-
-Simple example:
+The same rules as React web apply:
 
 ```tsx
-const expensiveComputedList = useMemo(
-  () => computeSomethingHuge(rawList),
-  [rawList]
+const expensiveList = useMemo(
+  () => filterAndSort(rawItems),
+  [rawItems],
 );
 ```
 
----
-
-### Observation tools
-
-- **Perf Monitor** (`Debug → Show Perf Monitor`): shows UI/JS FPS.
-- **Flipper**:
-  - React Native plugin for viewing performance, logs, and events.
-  - Helps identify warnings like "VirtualizedLists should never be nested" and misconfigured lists.
+Avoid building new objects or arrays inline in JSX — every render creates a new reference, which defeats shallow comparison in `React.memo`. Keep derived data in `useMemo`, callbacks in `useCallback`, and heavy computation out of the render path.
 
 ---
 
-### Hands-on exercise
+## Profiling Tools
 
-1. Create a screen with a list of 5,000 mocked items.
-2. Implement a "naive" version:
-   - Using `ScrollView` with `.map()` or `FlatList` with no optimizations.
-3. Observe:
-   - Latency when opening the screen.
-   - Scroll smoothness.
-4. Migrate to an optimized version:
-   - `FlatList` with `React.memo`, `useCallback`, `getItemLayout`, `initialNumToRender`, `windowSize`.
-5. Document the differences (before/after) in FPS and perceived usability.
+| Tool | What it shows |
+|---|---|
+| Perf Monitor (shake menu → Perf Monitor) | Live JS FPS and UI FPS — first place to look for jank |
+| Flipper + React Native plugin | Component tree, re-render highlighting, network, and logs |
+| React DevTools (standalone) | Component profiler, same as web DevTools |
+
+The workflow is the same as web: measure first, then optimize. Check the Perf Monitor on a real mid-range Android device, not on a simulator — simulators share your machine's CPU and hide real-world bottlenecks.
 
 ---
 
-### Study Materials
+## Resources
 
-- [Optimizing Performance — React Native Docs](https://reactnative.dev/docs/optimizing-performance)
-- Article: *From React Web to React Native — Performance Gotchas*
-- Video: *Performance Tips for Web Devs Coming to React Native*
+| Resource | Type | Link |
+|---|---|---|
+| Optimizing Performance | Official Docs | [reactnative.dev/docs/optimizing-performance](https://reactnative.dev/docs/optimizing-performance) |
+| FlatList API | Official Docs | [reactnative.dev/docs/flatlist](https://reactnative.dev/docs/flatlist) |
+| Reanimated | Official Docs | [docs.swmansion.com/react-native-reanimated](https://docs.swmansion.com/react-native-reanimated) |
 
 ---
 

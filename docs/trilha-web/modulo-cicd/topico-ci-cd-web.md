@@ -2,56 +2,45 @@
 title: CI/CD
 ---
 
-# Topic — CI/CD (Web Track)
+# CI/CD
 
-### Topic Goal
+## Video Overview
 
-By the end, you should be able to:
-
-- Explain that in RN there are:
-  - A JS bundle build.
-  - A native app build (Android/iOS).
-- Configure a simple CI pipeline (e.g. GitHub Actions) that:
-  - Runs lint.
-  - Runs tests.
-  - Builds Android.
-- Interpret Android build failures coming from `./gradlew`.
-
----
-
-### Video Demonstration
-
-<video width="100%" max-width="800px" controls style="border-radius: 8px; margin: 16px 0;">
-  <source src="https://alimuramatheus.github.io/trilha-react-native/assets/videos/Web_to_RN_CI_CD_Pipelines_-_web.mp4" type="video/mp4">
+<video width="100%" controls style="border-radius: 8px; margin: 16px 0;">
+  <source src="/trilha-react-native/assets/videos/Web_to_RN_CI_CD_Pipelines_-_web.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
+## Your Pipeline, Extended
+
+A web CI pipeline ends at `npm run build` — a bundle of JS and static assets. A React Native pipeline keeps the same JS phase and adds a native build on top: `./gradlew assembleRelease` for Android, `xcodebuild` for iOS.
+
+The JS steps you already know (`npm ci`, lint, tests) are unchanged and run first. They're cheap and fast on any runner. The native build is what's new, and it's where most of the configuration complexity lives.
+
 ---
 
-### Typical Flow: from Web CI to RN CI
+## Web CI vs RN CI
 
-On the web:
+| Web | React Native | Note |
+|---|---|---|
+| `npm ci` | `npm ci` | Identical |
+| `npm run lint` | `npm run lint` | Identical — ESLint on the same codebase |
+| `npm test` | `npm test` | Identical — Jest |
+| `npm run build` → JS bundle | `cd android && ./gradlew assembleRelease` | Native build that bundles JS internally |
+| Deploy to CDN | Upload APK / IPA artifact | Distributed to stores or testers |
 
-- `npm ci`
-- `npm run lint`
-- `npm test`
-- `npm run build`
+The JS bundle is generated **inside** the native build — Gradle calls `react-native bundle` as part of `assembleRelease`. You do not need a separate bundle step.
 
-In RN (Android):
+---
 
-- `npm ci`
-- `npm run lint`
-- `npm test`
-- `cd android && ./gradlew assembleRelease`
-
-GitHub Actions example:
+## Android Pipeline (GitHub Actions)
 
 ```yaml
-name: React Native CI (Web Dev Edition)
+name: React Native CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -65,14 +54,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run lint
+      - name: Lint
         run: npm run lint
 
-      - name: Run tests
+      - name: Tests
         run: npm test
 
       - name: Build Android
@@ -85,28 +75,73 @@ jobs:
           path: android/app/build/outputs/apk/release/app-release.apk
 ```
 
----
+`cache: 'npm'` on the `setup-node` step caches `node_modules` keyed to `package-lock.json`. On a warm cache, `npm ci` drops from ~60s to ~5s — add it from day one.
 
-### Hands-on Exercise
-
-1. Take a CI workflow you already use in a web project:
-   - Checkout.
-   - Setup Node.
-   - `npm ci`, lint, tests.
-2. Adapt it for RN:
-   - Adding an Android build step.
-   - Uploading an APK artifact.
-3. Document for the team:
-   - Where to find the generated APK.
-   - How to interpret build errors (Gradle log).
+The GitHub-hosted `ubuntu-latest` runner comes with the Android SDK pre-installed. For most projects, no extra SDK setup is needed.
 
 ---
 
-### Study Materials
+## Reading Gradle Errors
 
-- Blog: *GitHub Actions for React Native*
-- Guide: *From React Web CI to React Native CI*
-- Docs: Gradle, Android build basics
+When the Android build fails, the error is in the Gradle output, not in the JS layer. Common patterns:
+
+- `error: cannot find symbol` — a native dependency is missing or misconfigured. Check `android/build.gradle` and `android/app/build.gradle`.
+- `Execution failed for task ':app:bundleReleaseJsAndAssets'` — the JS bundle step failed. The actual JS error will be a few lines above in the log.
+- `JAVA_HOME is not set` — the runner is missing a Java environment. Add a `setup-java` step before the Gradle step.
+
+When you see a Gradle failure you don't recognize, search the full error message — Gradle errors are verbose but specific, and the relevant line is usually in the last 20 lines of output.
+
+---
+
+## iOS Builds
+
+iOS builds require a `macos-latest` runner, which costs significantly more than `ubuntu-latest`. A practical split:
+
+- **On every PR**: run lint + tests on `ubuntu-latest`. Fast, cheap, catches most regressions.
+- **On merge to main**: add the Android build. Still on Ubuntu.
+- **On release branches**: add the iOS build on `macos-latest`.
+
+```yaml
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Pods
+        run: cd ios && pod install
+
+      - name: Build iOS
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace MyApp.xcworkspace \
+            -scheme MyApp \
+            -configuration Release \
+            -sdk iphoneos
+```
+
+`pod install` is slow on a cold runner (3–5 minutes). Cache the `Pods/` directory keyed to `Podfile.lock` if your runner supports it.
+
+---
+
+## Resources
+
+| Resource | Type | Link |
+|---|---|---|
+| GitHub Actions | Official Docs | [docs.github.com/en/actions](https://docs.github.com/en/actions) |
+| Fastlane | Official | [fastlane.tools](https://fastlane.tools) |
+| EAS Build (Expo alternative) | Official | [docs.expo.dev/build/introduction](https://docs.expo.dev/build/introduction) |
+| React Native — Publishing | Official Docs | [reactnative.dev/docs/publishing-to-app-store](https://reactnative.dev/docs/publishing-to-app-store) |
 
 ---
 
