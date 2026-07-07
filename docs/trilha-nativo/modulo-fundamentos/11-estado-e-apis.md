@@ -59,6 +59,62 @@ const [state, dispatch] = useReducer(reducer, { status: 'idle', data: null });
 
 ---
 
+## Initialization and side effects: useEffect
+
+In native development, the screen lifecycle — `onCreate`, `viewDidLoad` — is where you initialize data, configure observers, and register listeners. In React, that responsibility belongs to `useEffect`.
+
+```tsx
+useEffect(() => {
+  // Runs after the first render — equivalent to onCreate / viewDidLoad
+  fetchUserProfile();
+
+  return () => {
+    // Cleanup — equivalent to onDestroy / deinit
+    // Use to cancel subscriptions, remove listeners
+  };
+}, []); // empty array = runs once
+```
+
+The second argument is the dependency array. This has no direct equivalent in native — it is a React concept:
+
+```tsx
+useEffect(() => {
+  // Runs every time userId changes
+  fetchUserProfile(userId);
+}, [userId]);
+```
+
+The practical rule: `[]` for one-time initialization, `[dep]` when the effect needs to react to a specific change. Omitting the array makes the effect run on every render — almost never what you want.
+
+---
+
+## The reactive model: state changes, UI updates automatically
+
+This is the most important conceptual shift for native developers: **you never tell the UI to update**.
+
+On Android, after changing data in an adapter, you call `notifyDataSetChanged()`. On iOS, you call `tableView.reloadData()`. In React, neither of these exists.
+
+When you call `setState` or update a store, React automatically recomputes which parts of the UI depend on that state and re-renders only those parts.
+
+```tsx
+// Native — imperative: you control WHEN the UI updates
+items.add(newItem)
+adapter.notifyItemInserted(items.size - 1)  // Android
+tableView.reloadData()                       // iOS
+
+// React — declarative: the UI IS a function of state
+const [items, setItems] = useState<Item[]>([]);
+
+// You only change the state — React handles the UI
+setItems(prev => [...prev, newItem]);
+```
+
+The list rendered in JSX always reflects the current state. There is no explicit refresh call — the declaration `<FlatList data={items} />` always shows the current `items` because it re-renders whenever `items` changes.
+
+This inversion of control is the core of the React model: instead of manually coordinating UI and data, you keep the state correct and let the framework synchronize the UI.
+
+---
+
 ## Client state vs Server state
 
 This is the most important conceptual split in the React ecosystem — and one that does not exist explicitly in native development:

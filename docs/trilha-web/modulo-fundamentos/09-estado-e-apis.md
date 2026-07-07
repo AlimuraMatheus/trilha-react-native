@@ -9,6 +9,15 @@ sidebar_position: 9
 
 ---
 
+## Video Overview
+
+<video width="100%" controls>
+  <source src="/trilha-react-native/assets/videos/trilha_web_09_estado-e-api-en.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+---
+
 ## What changes from web to mobile
 
 The state logic you already know from React works in React Native — `useState`, `useReducer`, Context, global stores are the same. What changes is the **environment** in which that state lives:

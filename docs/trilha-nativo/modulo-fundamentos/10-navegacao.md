@@ -84,7 +84,7 @@ function AppStack() {
       <Stack.Screen
         name="Details"
         component={DetailsScreen}
-        options={{ title: 'Detalhes' }}
+        options={{ title: 'Details' }}
       />
     </Stack.Navigator>
   );
@@ -241,6 +241,66 @@ const linking = {
 
 > For Android: configure `intent-filter` in `AndroidManifest.xml`.  
 > For iOS: configure `Associated Domains` and `URL Types` in Xcode.
+
+---
+
+## Screen lifecycle: useFocusEffect
+
+In native development, a screen's lifecycle is tied to the Activity/Fragment (`onResume`, `onPause`) or ViewController (`viewWillAppear`, `viewWillDisappear`). In React Navigation, screens are **not destroyed** when you leave them — they stay mounted in memory — so the React component lifecycle does not map directly to "screen became visible again".
+
+The `useFocusEffect` hook solves this: it runs when the screen gains focus and, optionally, executes a cleanup when it loses focus. It is the direct replacement for `onResume`/`viewWillAppear`.
+
+```tsx
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+
+function OrdersScreen() {
+  useFocusEffect(
+    useCallback(() => {
+      // Equivalent to onResume (Android) or viewWillAppear (iOS)
+      // Runs every time the screen gains focus
+      fetchOrders();
+
+      return () => {
+        // Equivalent to onPause (Android) or viewWillDisappear (iOS)
+        // Runs when the screen loses focus
+        cancelPendingRequests();
+      };
+    }, [])
+  );
+}
+```
+
+The `useCallback` with an empty array is required: without it, the effect re-registers on every render, causing duplicate calls.
+
+| Native | useFocusEffect |
+|--------|---------------|
+| `onResume` / `viewWillAppear` | callback body |
+| `onPause` / `viewWillDisappear` | returned cleanup function |
+| `onCreate` / `viewDidLoad` | `useEffect` with empty array (runs once) |
+
+---
+
+## Navigating from nested components: useNavigation
+
+In native development, you access the navigation controller via a direct reference (`self.navigationController`, `findNavController()`). In React Navigation, the `useNavigation` hook provides the navigation object to any component in the tree — without needing to pass `navigation` as a prop.
+
+```tsx
+import { useNavigation } from '@react-navigation/native';
+
+// Generic component, not a Screen — does not receive navigation as a prop
+function ProductCard({ product }: { product: Product }) {
+  const navigation = useNavigation();
+
+  return (
+    <Pressable onPress={() => navigation.navigate('Details', { productId: product.id })}>
+      <Text>{product.name}</Text>
+    </Pressable>
+  );
+}
+```
+
+This is equivalent to calling `findNavController()` from any View inside a Fragment on Android — without requiring the Fragment to manually pass the reference down through the view hierarchy.
 
 ---
 
