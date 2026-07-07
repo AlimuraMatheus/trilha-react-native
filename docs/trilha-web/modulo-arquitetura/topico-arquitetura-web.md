@@ -1,20 +1,20 @@
 ---
-title: Arquitetura
+title: Architecture
 ---
 
-# Tópico — Arquitetura (Trilha Web)
+# Topic — Architecture (Web Track)
 
-### Objetivo do tópico
+### Topic Goal
 
-Ao final, o dev deve conseguir:
+By the end, you should be able to:
 
-- Organizar um app RN em pastas por feature.
-- Separar:
-  - Navegação (Stack/Tab/Drawer).
-  - Estado global (Zustand/Redux).
-  - Camada de API (services).
-  - Componentes compartilhados.
-- Documentar a arquitetura para o time (README / ARCHITECTURE.md).
+- Organize a RN app into feature-based folders.
+- Separate:
+  - Navigation (Stack/Tab/Drawer).
+  - Global state (Zustand/Redux).
+  - API layer (services).
+  - Shared components.
+- Document the architecture for the team (README / ARCHITECTURE.md).
 
 ---
 
@@ -27,7 +27,7 @@ Ao final, o dev deve conseguir:
 
 ---
 
-### Estrutura de pastas sugerida
+### Suggested folder structure
 
 ```txt
 src/
@@ -63,7 +63,7 @@ src/
 
 ---
 
-### Hooks de domínio (paralelo com React web)
+### Domain hooks (parallel with React web)
 
 ```tsx
 
@@ -86,7 +86,7 @@ export function useFeed() {
 
 ```
 
-Uso em tela:
+Usage in screen:
 
 ```tsx
 
@@ -112,26 +112,26 @@ export function FeedScreen() {
 
 ---
 
-### Exercício prático
+### Practical exercise
 
-1. Pegue um app RN com:
+1. Take an RN app with:
    - Login.
    - Feed.
-   - Perfil.
-2. Reorganize código em:
-   - `app/` (navegação, store global).
+   - Profile.
+2. Reorganize the code into:
+   - `app/` (navigation, global store).
    - `features/` (auth, feed, profile).
-   - `shared/` (componentes e hooks reutilizáveis).
-3. Crie um `ARCHITECTURE.md` explicando:
-   - Onde ficam telas (`screens/`).
-   - Onde ficam hooks (`hooks/`).
-   - Onde ficam serviços de API (`api/`).
-   - Onde entram modules nativos (`native/`).
+   - `shared/` (reusable components and hooks).
+3. Create an `ARCHITECTURE.md` explaining:
+   - Where screens live (`screens/`).
+   - Where hooks live (`hooks/`).
+   - Where API services live (`api/`).
+   - Where native modules go (`native/`).
 
 ---
 
-### Materiais de estudo
+### Study Materials
 
 - Blog: *Feature-based Folder Structure in React Native*
-- Guia: *React Native Architecture for React Developers*
-- Vídeo: *Structuring React Native Apps — From Web to Mobile*
+- Guide: *React Native Architecture for React Developers*
+- Video: *Structuring React Native Apps — From Web to Mobile*

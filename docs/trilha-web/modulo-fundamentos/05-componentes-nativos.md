@@ -231,4 +231,4 @@ const [isEnabled, setIsEnabled] = useState(false);
 
 ---
 
-Next → **[Styling & Flexbox for Web Devs](./styling-and-flexbox)**
+Next → **[Styling & Flexbox for Web Devs](./estilos-flexbox)**
