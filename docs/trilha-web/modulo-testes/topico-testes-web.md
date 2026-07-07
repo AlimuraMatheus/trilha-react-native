@@ -1,17 +1,17 @@
 ---
-title: Testes
+title: Testing
 ---
 
-# Tópico — Testes (Trilha Web) 
+# Topic — Testing (Web Track)
 
-### Objetivo do tópico
+### Topic Goal
 
-Ao final, o dev deve conseguir:
+By the end, you should be able to:
 
-- Configurar Jest em um projeto RN
-- Escrever testes de componentes RN com `@testing-library/react-native`
-- Escrever testes de hooks e lógica com Jest
-- Entender o papel de Detox para E2E (mesmo que não implemente tudo neste tópico)
+- Configure Jest in an RN project
+- Write RN component tests with `@testing-library/react-native`
+- Write hook and logic tests with Jest
+- Understand the role of Detox for E2E (even if you don't implement everything in this topic)
 
 ---
 
@@ -24,17 +24,17 @@ Ao final, o dev deve conseguir:
 
 ---
 
-### Ferramentas
+### Tools
 
-- **Jest** — runner e asserções.
-- **@testing-library/react-native** — mesma filosofia do Testing Library web: testar o comportamento, não a implementação.
-- **Detox** — testes E2E automatizados em devices/emuladores (introdução conceitual).
+- **Jest** — test runner and assertions.
+- **@testing-library/react-native** — same philosophy as Testing Library web: test behavior, not implementation.
+- **Detox** — automated E2E tests on devices/emulators (conceptual introduction).
 
 ---
 
-### Testando um componente RN (paralelo com web)
+### Testing an RN Component (parallel with web)
 
-Componente:
+Component:
 
 ```tsx
 import React, { useState } from 'react';
@@ -66,7 +66,7 @@ export function LoginScreen() {
 }
 ```
 
-Teste:
+Test:
 
 ```tsx
 import React from 'react';
@@ -84,29 +84,33 @@ it('exibe erro quando email é inválido', () => {
 });
 ```
 
-Diferenças principais em relação ao web:
+Main differences compared to web:
 
-- `TextInput` em vez de `<input />`, e método `changeText` em vez de `change`.
-- `testID` é a forma recomendada de identificar elementos em RN (não há `data-testid` por padrão).
-
----
-
-### Exercício prático
-
-1. Escolha um componente RN com lógica simples:
-   - Ex.: um formulário com 2 campos e validação básica.
-2. Escreva testes que cubram:
-   - Estado inicial (sem erro).
-   - Erros quando campos são inválidos.
-   - Sucesso quando campos são válidos.
-3. Compare com seus testes em React web e liste:
-   - O que é igual.
-   - O que muda (tipos de componentes, eventos, ambiente).
+- `TextInput` instead of `<input />`, and method `changeText` instead of `change`.
+- `testID` is the recommended way to identify elements in RN (there is no `data-testid` by default).
 
 ---
 
-### Materiais de estudo
+### Practical Exercise
+
+1. Choose an RN component with simple logic:
+   - Ex.: a form with 2 fields and basic validation.
+2. Write tests that cover:
+   - Initial state (no error).
+   - Errors when fields are invalid.
+   - Success when fields are valid.
+3. Compare with your React web tests and list:
+   - What is the same.
+   - What changes (component types, events, environment).
+
+---
+
+### Study Materials
 
 - [@testing-library/react-native Docs](https://testing-library.com/docs/react-native-testing-library/intro/)
-- Guia: *Testing React Native for React Web Developers*
-- Vídeo: *Jest & Testing Library in React Native*
+- Guide: *Testing React Native for React Web Developers*
+- Video: *Jest & Testing Library in React Native*
+
+---
+
+Next → **[CI/CD](../modulo-cicd/topico-ci-cd-web)**
