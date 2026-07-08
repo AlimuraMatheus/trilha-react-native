@@ -42,6 +42,11 @@ trilha-web/                  ← para devs React web
 - CI/CD → `modulo-cicd`
 - Arquitetura → `modulo-arquitetura`
 
+## Regras de git
+
+- **Nunca commitar diretamente na branch `main`** — sempre criar uma branch separada e abrir um PR
+- Formato sugerido para branches: `<tipo>/<slug-do-topico>` (ex.: `content/performance-nativo`, `fix/video-paths`)
+
 ## Convenções obrigatórias
 
 - Arquivos individuais: `NN-slug-do-tema.md` com frontmatter mínimo (`title` apenas)
