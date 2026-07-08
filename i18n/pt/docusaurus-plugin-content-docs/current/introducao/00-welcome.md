@@ -66,6 +66,25 @@ Cada módulo contém:
 Todos os exemplos de código neste curso podem ser executados imediatamente no **[Expo Snack](https://snack.expo.dev)** — sem configuração necessária. Basta colar o código e clicar em Run.
 :::
 
+## Contribuidores
+
+<div style="display:flex; flex-wrap:wrap; gap:24px; margin-top:16px;">
+  <a href="https://github.com/AlimuraMatheus" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none; color:inherit;">
+    <img src="https://github.com/AlimuraMatheus.png?size=80" alt="Matheus Sales" style="width:72px; height:72px; border-radius:50%; object-fit:cover;" />
+    <span style="font-size:13px;">Matheus Sales</span>
+  </a>
+  <a href="https://github.com/gbonin-ciandt" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none; color:inherit;">
+    <img src="https://github.com/gbonin-ciandt.png?size=80" alt="Gabriel Bonin" style="width:72px; height:72px; border-radius:50%; object-fit:cover;" />
+    <span style="font-size:13px;">Gabriel Bonin</span>
+  </a>
+  <a href="https://github.com/erickSuh" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none; color:inherit;">
+    <img src="https://github.com/erickSuh.png?size=80" alt="Erick Sugahara" style="width:72px; height:72px; border-radius:50%; object-fit:cover;" />
+    <span style="font-size:13px;">Erick Sugahara</span>
+  </a>
+</div>
+
+---
+
 ## Próximo Passo
 
 → Comece com **[História & Arquitetura](./introducao/history-and-architecture)** para entender *por que* o React Native é relevante em 2026, depois escolha sua trilha.
