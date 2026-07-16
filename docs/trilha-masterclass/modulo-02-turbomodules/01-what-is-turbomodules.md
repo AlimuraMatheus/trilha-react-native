@@ -2,6 +2,13 @@
 title: What Is TurboModules
 ---
 
+## Video Overview
+
+<video width="100%" controls>
+  <source src="/trilha-react-native/assets/videos/trilha_masterclass/mc02_01_what-is-turbomodules.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 # What Is TurboModules
 
 > Before the New Architecture, every native module call crossed the **asynchronous bridge**. TurboModules eliminate the bridge entirely — replacing it with JSI, a direct C++ channel between JavaScript and native code.
