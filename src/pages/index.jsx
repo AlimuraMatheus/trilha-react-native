@@ -207,9 +207,9 @@ export default function Home() {
           <div className={styles.contributorsList}>
             {[
               { name: 'Matheus Sales', role: 'React Native', username: 'AlimuraMatheus', color: '#00d4ff' },
-              { name: 'Reviewer',      role: 'Architect',    username: null,             color: '#7c3aed' },
-              { name: 'Reviewer',      role: 'Web',          username: null,             color: '#059669' },
-              { name: 'Reviewer',      role: 'Android',      username: null,             color: '#d97706' },
+              { name: 'Diego Karol Gouvea Lana', role: 'Architect', username: null, color: '#7c3aed' },
+              { name: 'Reviewer',               role: 'Web',       username: null, color: '#059669' },
+              { name: 'Paulo Vitor Sato',        role: 'Android',   username: null, color: '#d97706' },
               { name: 'Reviewer',      role: 'iOS',          username: null,             color: '#d97706' },
             ].map(({ name, role, username, color }, i) => (
               <div
