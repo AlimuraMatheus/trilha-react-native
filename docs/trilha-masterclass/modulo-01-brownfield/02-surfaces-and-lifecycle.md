@@ -2,8 +2,6 @@
 title: Surfaces & Lifecycle
 ---
 
-## Video Overview
-
 <video width="100%" controls>
   <source src="/trilha-react-native/assets/videos/trilha_masterclass/mc01_02_surfaces-and-lifecycle.mp4" type="video/mp4">
   Your browser does not support the video tag.
