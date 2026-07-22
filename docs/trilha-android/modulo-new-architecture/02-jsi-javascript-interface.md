@@ -252,6 +252,16 @@ true
 
 ---
 
+## Go Deeper — React Native Masterclass
+
+This topic gave you the Android-developer mental model for JSI. The Masterclass covers the same subject at a much lower level — C++ HostObject internals, JSI advanced patterns, and how the runtime ties together with Fabric:
+
+- [JSI: JavaScript Interface](/trilha-masterclass/modulo-02-jsi-fabric/jsi-javascript-interface) — C++ API reference and HostObject lifecycle
+- [JSI Advanced](/trilha-masterclass/modulo-02-jsi-fabric/jsi-advanced) — synchronous native calls, shared ArrayBuffer, JSI in libraries
+- [Runtime: New Architecture](/trilha-masterclass/modulo-02-jsi-fabric/runtime-new-architecture) — full runtime stack, thread model, concurrent rendering
+
+---
+
 ## Study Materials
 
 ### Official Documentation

@@ -347,6 +347,16 @@ override fun Content() {
 
 ---
 
+## Go Deeper — React Native Masterclass
+
+This topic showed you how to build a Fabric component backed by Jetpack Compose. The Masterclass covers Fabric at the renderer level — how C++ shadow trees work, the full component lifecycle, and advanced patterns like measuring and event dispatch:
+
+- [Fabric Renderer](/trilha-masterclass/modulo-02-jsi-fabric/fabric-renderer) — how Fabric replaces the old UIManager, shadow tree diffing, Yoga layout
+- [Fabric Components](/trilha-masterclass/modulo-02-jsi-fabric/fabric-components) — full component spec, props, events, commands, and the ViewManager lifecycle
+- [Runtime Debugging](/trilha-masterclass/modulo-02-jsi-fabric/runtime-debugging) — debugging Fabric component layout and event issues
+
+---
+
 ## Study Materials
 
 ### Official Documentation

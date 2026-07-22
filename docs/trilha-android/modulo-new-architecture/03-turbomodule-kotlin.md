@@ -354,6 +354,19 @@ For a runnable example that demonstrates the pattern with a pre-built module:
 
 ---
 
+## Go Deeper — React Native Masterclass
+
+This topic walked you through a TurboModule end-to-end from a Kotlin perspective. The Masterclass goes further — TypeScript spec edge cases, all supported types, defensive loading strategies, mocks for testing, and the full Codegen pipeline:
+
+- [What is TurboModules](/trilha-masterclass/modulo-03-turbomodules/what-is-turbomodules) — architecture overview and why TurboModules replace old native modules
+- [TypeScript Specs](/trilha-masterclass/modulo-03-turbomodules/specs-typescript) — spec rules, all supported types, nullable handling
+- [Codegen](/trilha-masterclass/modulo-03-turbomodules/codegen) — what Codegen generates and how to debug generation failures
+- [Defensive Loading: get vs getEnforcing](/trilha-masterclass/modulo-03-turbomodules/get-vs-getenforcing) — when to use each and how to guard availability
+- [Supported Types](/trilha-masterclass/modulo-03-turbomodules/supported-types) — complete type mapping reference
+- [Tests and Mocks](/trilha-masterclass/modulo-03-turbomodules/tests-mocks) — how to mock TurboModules in Jest
+
+---
+
 ## Study Materials
 
 ### Official Documentation
