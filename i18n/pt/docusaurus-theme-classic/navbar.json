@@ -11,6 +11,10 @@
     "message": "Native dev trail",
     "description": "Navbar item with label Native dev trail"
   },
+  "item.label.Android Native Trail": {
+    "message": "Trilha Android Nativo",
+    "description": "Navbar item with label Android Native Trail"
+  },
   "item.label.React Native MasterClass Trail": {
     "message": "React Native MasterClass Trail",
     "description": "Navbar item with label React Native MasterClass Trail"

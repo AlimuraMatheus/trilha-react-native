@@ -78,6 +78,12 @@ const config = {
             activeBaseRegex: '^/trilha-react-native/trilha-nativo',
           },
           {
+            to: '/trilha-android/modulo-compose-para-rn/composable-vs-component',
+            label: 'Android Native Trail',
+            position: 'left',
+            activeBaseRegex: '^/trilha-react-native/trilha-android',
+          },
+          {
             to: '/trilha-masterclass/modulo-00-overview/course-overview',
             label: 'React Native MasterClass Trail',
             position: 'left',
