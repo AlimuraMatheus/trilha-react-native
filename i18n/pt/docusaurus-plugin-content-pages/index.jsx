@@ -92,7 +92,7 @@ export default function Home() {
 
         <ForkArrows />
 
-        <p className={styles.forkCaption}>Escolha seu background: dois caminhos, o mesmo destino</p>
+        <p className={styles.forkCaption}>Escolha seu background: três caminhos, o mesmo destino</p>
 
         <section className={styles.tracks}>
           <div className={`${styles.trackCard} ${styles.trackCardWeb}`} style={{ animationDelay: '0.1s' }}>
@@ -113,20 +113,37 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className={`${styles.trackCard} ${styles.trackCardNativo}`} style={{ animationDelay: '0.25s' }}>
+          <div className={`${styles.trackCard} ${styles.trackCardAndroid}`} style={{ animationDelay: '0.2s' }}>
             <div className={styles.cardGlow} />
             <div className={styles.cardBadge}>
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style={{marginRight: '3px', verticalAlign: 'middle'}}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style={{marginLeft: '1px', marginRight: '4px', verticalAlign: 'middle'}}><path d="M17.523 15.341 14.63 9.927a3.017 3.017 0 0 0-.929-1.067A2.198 2.198 0 0 0 12.459 8.5c-.449 0-.875.125-1.243.36a3.017 3.017 0 0 0-.929 1.067L7.394 15.34a2.43 2.43 0 0 0 .047 2.35c.222.382.547.694.937.9a2.7 2.7 0 0 0 1.28.31h5.6c.449 0 .882-.108 1.28-.31.39-.206.715-.518.938-.9a2.43 2.43 0 0 0 .047-2.35zM8.5 6.5a3.5 3.5 0 1 0 7 0 3.5 3.5 0 0 0-7 0z"/></svg>
-              Nativo
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style={{marginRight: '4px', verticalAlign: 'middle'}}><path d="M17.523 15.341 14.63 9.927a3.017 3.017 0 0 0-.929-1.067A2.198 2.198 0 0 0 12.459 8.5c-.449 0-.875.125-1.243.36a3.017 3.017 0 0 0-.929 1.067L7.394 15.34a2.43 2.43 0 0 0 .047 2.35c.222.382.547.694.937.9a2.7 2.7 0 0 0 1.28.31h5.6c.449 0 .882-.108 1.28-.31.39-.206.715-.518.938-.9a2.43 2.43 0 0 0 .047-2.35zM8.5 6.5a3.5 3.5 0 1 0 7 0 3.5 3.5 0 0 0-7 0z"/></svg>
+              Android
             </div>
-            <div className={styles.trackLabel}>Trilha Nativo</div>
+            <div className={styles.trackLabel}>Trilha Android</div>
             <p className={styles.trackDesc}>
-              Você vem do Kotlin ou Swift. Mapeie seus conceitos para o ecossistema JavaScript.
+              Você vem do Kotlin e Jetpack Compose. Mapeie seus conceitos para o ecossistema React Native.
             </p>
             <Link
-              className={`${styles.trackBtn} ${styles.trackBtnNativo}`}
-              to="/trilha-nativo/modulo-fundamentos/javascript-for-native-developers"
+              className={`${styles.trackBtn} ${styles.trackBtnAndroid}`}
+              to="/trilha-android/modulo-compose-para-rn/composable-vs-component"
+            >
+              Começar
+            </Link>
+          </div>
+
+          <div className={`${styles.trackCard} ${styles.trackCardIos}`} style={{ animationDelay: '0.3s' }}>
+            <div className={styles.cardGlow} />
+            <div className={styles.cardBadge}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style={{marginRight: '4px', verticalAlign: 'middle'}}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              iOS
+            </div>
+            <div className={styles.trackLabel}>Trilha iOS</div>
+            <p className={styles.trackDesc}>
+              Você vem do Swift e SwiftUI. Mapeie seus conceitos para o ecossistema React Native.
+            </p>
+            <Link
+              className={`${styles.trackBtn} ${styles.trackBtnIos}`}
+              to="/trilha-ios/modulo-fundamentos/swift-to-javascript"
             >
               Começar
             </Link>

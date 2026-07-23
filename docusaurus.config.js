@@ -72,12 +72,6 @@ const config = {
             activeBaseRegex: '^/trilha-react-native/trilha-web',
           },
           {
-            to: '/trilha-nativo/modulo-fundamentos/javascript-for-native-developers',
-            label: 'Native dev trail',
-            position: 'left',
-            activeBaseRegex: '^/trilha-react-native/trilha-nativo',
-          },
-          {
             to: '/trilha-android/modulo-compose-para-rn/composable-vs-component',
             label: 'Android Native Trail',
             position: 'left',
