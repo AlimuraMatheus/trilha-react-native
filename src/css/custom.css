@@ -284,6 +284,8 @@
 [class*='trilha-android'] [class*='sidebarLogo'],
 [class*='trilha-ios'] [class*='sidebarLogo'],
 [class*='introducao'] [class*='sidebarLogo'] {
+  border-top: none !important;
+  border-right: none !important;
   border-left: 3px solid;
   border-bottom: 1px solid;
   padding-left: calc(1rem - 3px) !important;
