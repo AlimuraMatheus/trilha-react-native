@@ -50,14 +50,12 @@ Ao final, o dev deve conseguir:
 ## Instalação
 
 ```bash
-npm install @react-navigation/native react-native-screens react-native-safe-area-context
-npm install react-native-gesture-handler react-native-reanimated
+npx expo install @react-navigation/native react-native-screens react-native-safe-area-context
+npx expo install react-native-gesture-handler react-native-reanimated
 
-npm install @react-navigation/stack
-npm install @react-navigation/bottom-tabs
-npm install @react-navigation/drawer
-
-cd ios && pod install
+npx expo install @react-navigation/native-stack
+npx expo install @react-navigation/bottom-tabs
+npx expo install @react-navigation/drawer
 ```
 
 > **Atenção:** adicione `import 'react-native-gesture-handler'` como **primeira linha** do `index.js`.
@@ -70,9 +68,13 @@ O Stack Navigator funciona como uma pilha de cartas: cada nova tela é colocada 
 
 O `NavigationContainer` é o ponto de controle central da navegação. Deve existir apenas um no app, na raiz, e mantém todo o estado de navegação em memória. Sem ele, nenhum navigator funciona.
 
+:::note Native Stack vs JS Stack
+Use `createNativeStackNavigator` do `@react-navigation/native-stack` (usado abaixo). Ele delega as transições para as primitivas de navegação nativas da plataforma, entregando animações com feel nativo e melhor performance. O `createStackNavigator` do `@react-navigation/stack` re-implementa as transições em JS — use-o apenas se precisar de customização de animação avançada que o native stack não suporta.
+:::
+
 ```tsx
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Tipagem de parâmetros (substitui os params da URL)
 type RootStackParamList = {
@@ -80,7 +82,7 @@ type RootStackParamList = {
   ProductDetails: { productId: string; productName: string };
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppStack() {
   return (

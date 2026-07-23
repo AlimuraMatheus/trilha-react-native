@@ -48,14 +48,12 @@ By the end, you should be able to:
 ## Installation
 
 ```bash
-npm install @react-navigation/native react-native-screens react-native-safe-area-context
-npm install react-native-gesture-handler react-native-reanimated
+npx expo install @react-navigation/native react-native-screens react-native-safe-area-context
+npx expo install react-native-gesture-handler react-native-reanimated
 
-npm install @react-navigation/stack
-npm install @react-navigation/bottom-tabs
-npm install @react-navigation/drawer
-
-cd ios && pod install
+npx expo install @react-navigation/native-stack
+npx expo install @react-navigation/bottom-tabs
+npx expo install @react-navigation/drawer
 ```
 
 > **Warning:** add `import 'react-native-gesture-handler'` as the **first line** of `index.js`.
@@ -68,9 +66,13 @@ The Stack Navigator works like a deck of cards: each new screen is placed on top
 
 The `NavigationContainer` is the central control point for navigation. There should be only one in the app, at the root, and it holds all navigation state in memory. Without it, no navigator works.
 
+:::note Native Stack vs JS Stack
+Use `createNativeStackNavigator` from `@react-navigation/native-stack` (used below). It delegates transitions to the platform's native navigation primitives, giving you native-feel animations and better performance. The older `createStackNavigator` from `@react-navigation/stack` re-implements transitions in JS — only use it if you need deep animation customization that the native stack doesn't support.
+:::
+
 ```tsx
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Parameter typing (replaces URL params)
 type RootStackParamList = {
@@ -78,7 +80,7 @@ type RootStackParamList = {
   ProductDetails: { productId: string; productName: string };
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppStack() {
   return (
