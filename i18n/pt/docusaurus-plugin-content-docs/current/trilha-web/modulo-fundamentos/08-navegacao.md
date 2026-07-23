@@ -50,12 +50,14 @@ Ao final, o dev deve conseguir:
 ## Instalação
 
 ```bash
-npx expo install @react-navigation/native react-native-screens react-native-safe-area-context
-npx expo install react-native-gesture-handler react-native-reanimated
+npm install @react-navigation/native react-native-screens react-native-safe-area-context
+npm install react-native-gesture-handler react-native-reanimated
 
-npx expo install @react-navigation/native-stack
-npx expo install @react-navigation/bottom-tabs
-npx expo install @react-navigation/drawer
+npm install @react-navigation/native-stack
+npm install @react-navigation/bottom-tabs
+npm install @react-navigation/drawer
+
+cd ios && pod install
 ```
 
 > **Atenção:** adicione `import 'react-native-gesture-handler'` como **primeira linha** do `index.js`.
